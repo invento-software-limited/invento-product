@@ -1,0 +1,28 @@
+{
+    "name": "invento/blog",
+    "description": "Laravel blog for multi-purpose application",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Awlad",
+            "email": "awladdeleo@gmail.com"
+        }
+    ],
+    "require": {
+        "diglactic/laravel-breadcrumbs": "^8.1"
+   
+    },
+    "autoload": {
+        "psr-4": {
+            "Invento\\Blog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Invento\\Blog\\BlogServiceProvider"
+            ]
+        }
+    }
+}
