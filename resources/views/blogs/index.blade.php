@@ -5,7 +5,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('breadcrumbs.blogs.index') }}
+        {{ Breadcrumbs::render('blogs.index') }}
     @endsection
 
     <div class="card card-flush pt-3 mb-5 mb-lg-10">
@@ -16,7 +16,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('admin.blogs.create') }}" class="btn btn-sm btn-primary">
-                    <i class="ki-duotone ki-plus fs-2"></i>{{ __('blog::blogs.ad_blog') }}</a>
+                    <i class="ki-duotone ki-plus fs-2"></i>{{ __('blog::blogs.add_blog') }}</a>
             </div>
         </div>
         <!--end::Card header-->
@@ -127,13 +127,13 @@
 
                     <!--begin::Action-->
                     <a href="{{ route('admin.blogs.create') }}"
-                       class="btn btn-primary">{{ __('blog::blogs.AddBlog') }}</a>
+                       class="btn btn-primary">{{ __('blog::blogs.add_blog') }}</a>
                     <!--end::Action-->
                 </div>
                 <!--end::Wrapper-->
                 <!--begin::Illustration-->
                 <div class="text-center px-4">
-                    <img class="mw-100 mh-300px" alt="" src="{{ asset('vendor/invento-blog/media/empty_blog.png') }}">
+                    <img class="mw-100 mh-300px" alt="" src="{{ asset('vendor/blog/media/empty_blog.png') }}">
                 </div>
                 <!--end::Illustration-->
             </div>

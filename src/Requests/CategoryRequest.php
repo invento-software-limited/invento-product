@@ -3,8 +3,10 @@
 namespace Invento\Blog\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Invento\Blog\Models\Category;
 
-class BCategoryRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,5 +31,6 @@ class BCategoryRequest extends FormRequest
             'meta_title' => ['nullable','string','min:4'],
             'meta_description' => ['nullable','string','min:4'],
         ];
+
     }
 }

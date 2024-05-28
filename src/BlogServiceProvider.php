@@ -26,6 +26,10 @@ class BlogServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/blog')
         ], 'views');
 
+        $this->publishes([
+            __DIR__ . '/public' => public_path('vendor/blog')
+        ], 'assets');
+
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'blog');
 
         $this->publishes([

@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'blog_category' => 'Blog Category',
+    'category' => 'Category',
+    'categories' => 'Categories',
+    'category_list' => 'Category List',
+    'add_category' => 'Add Category',
+    'edit_category' => 'Edit Category',
+    'update_category' => 'Update Category',
+    'blog_categoryList' => 'Blog Category List',
+    'blog_category_added_successfully' => 'Blog category added successfully',
+    'blog_category_updated_successfully' => 'Blog category updated successfully',
+    'category_not_found' => 'Category not found',
+    'type_category_information' => 'Type category information',
+    'welcome_to_blog_category' => 'Welcome to Invento Blog Category',
+    'name' => 'Name',
+    'name_text' => 'Enter blog category name',
+    'display_order' => 'Display Order',
+    'display_order_text' => 'Enter blog category display order',
+    'status' => 'Status',
+    'category_details' => 'Category Details',
+    'created_at' => 'Created At',
+    'action' => 'Action',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'blog_category_added' => 'Blog category added successfully',
+    'blog_category_updated' => 'Blog category updated successfully',
+    'blog_category_deleted' => 'Blog category deleted successfully'
+];

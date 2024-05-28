@@ -9,9 +9,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Invento\Blog\Models\Blog;
-use Invento\Blog\Models\BCategory;
+use Invento\Blog\Models\Category;
 use Invento\Blog\Requests\BlogRequest;
 use Spatie\Tags\Tag;
+use App\Models\TagManager;
 
 class BlogController extends Controller
 {
@@ -23,18 +24,12 @@ class BlogController extends Controller
      */
     public function index()
     {
-        if (request()->has('query')){
-            $blogs = Blog::query()
-                ->search(request()->input('query'))
-                ->orderByDesc('created_at')
-                ->paginate(10);
-        }else{
-            $blogs = Blog::query()
-                ->orderByDesc('created_at')
-                ->paginate(10);
-        }
+        $data['blogs'] = Blog::query()
+            ->search(request()->input('query'))
+            ->orderByDesc('created_at')
+            ->paginate(10);
 
-        return view("blog::blogs.index")->with('blogs', $blogs);
+        return view("blog::blogs.index",$data);
     }
 
     /**
@@ -44,10 +39,11 @@ class BlogController extends Controller
      */
     public function create()
     {
-//        $data['categories'] = BCategory::active()->pluck('name','id')->toArray();
-//        $data['tags'] = Tag::where('status', true)->pluck('name', 'id')->toArray();
+        $data['categories'] = Category::active()->pluck('name','id')->toArray();
+        $data['tags'] = Tag::where('type', TagManager::TYPE['Blog'])->orWhere('type', null)->pluck('name', 'id');
+        $data['blog'] = new Blog();
 
-        return view('blog::blogs.create');
+        return view('blog::blogs.create',$data);
     }
 
     /**
@@ -58,9 +54,7 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-
-        dd($request);
-        $category = BCategory::where('id',$request->category)
+        $category = Category::where('id',$request->category)
             ->active()
             ->first();
         if(!$category){
@@ -92,7 +86,7 @@ class BlogController extends Controller
     {
         $data = [
             'blog'          => $blog,
-            'categories'    => BCategory::active()->pluck('name','id')->toArray(),
+            'categories'    => Category::active()->pluck('name','id')->toArray(),
             'tags'          => Tag::where('status', true)->pluck('name', 'id')->toArray()
         ];
 
@@ -107,7 +101,7 @@ class BlogController extends Controller
      */
     public function update(BlogRequest $request, Blog $blog)
     {
-        $category = BCategory::where('id',$request->category)
+        $category = Category::where('id',$request->category)
             ->active()
             ->first();
         if(!$category){

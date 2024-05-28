@@ -35,8 +35,7 @@ class Blog extends Model
 
     public const STATUS = [
         'Published' => 'Published',
-        'Draft' => 'Draft',
-        'Pending' => 'Pending'
+        'Draft' => 'Draft'
     ];
 
     /**

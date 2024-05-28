@@ -27,14 +27,13 @@ class BlogRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string','min:10','max:80'],
-            'short_description' => ['nullable', 'string','min:10', 'max:200'],
-            'content' => ['required', 'string', 'max:900000'],
+            'short_description' => ['nullable', 'string', 'max:200'],
+            'content' => ['nullable', 'string', 'max:900000'],
             'tag' => ['nullable', 'array'],
             'status' => ['required'],
             'display_order' => ['nullable','numeric','min:0'],
             'category' => ['required'],
-            'thumbnail' => ['required','string'],
-            'banner' => ['nullable','string'],
+            'thumbnail' => ['required','string']
         ];
     }
 }
