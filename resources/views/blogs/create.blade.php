@@ -3,17 +3,6 @@
     @push('styles')
         <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/custom.css') }}">
-
-        <style>
-            .select2-hidden-accessible.is-invalid + div{
-                position: absolute;
-                top:130px
-            }
-
-            .is-invalid ~ .select2-container .select2-selection--single {
-                border-color: #f1416c !important;
-            }
-        </style>
     @endpush
 
     @section('title')
@@ -40,7 +29,7 @@
                 <div class="mb-10 fv-row">
                     <label class="required form-label">{{ __('blog::blogs.blog_title') }}</label>
                     <input type="text" name="title" id="title" class="form-control mb-2 meta_title" value=""/>
-                    <div class="text-muted fs-7">A category name is required and recommended to be unique.</div>
+                    <div class="text-muted fs-7">{{ __('blog::blogs.blog_title_text') }}</div>
 
                 </div>
 
@@ -48,7 +37,7 @@
                     <label class="required form-label">{{ __('blog::blogs.short_description') }}</label>
                     <textarea rows="5" name="short_description" id="short_description"
                               class="form-control mb-2 meta_description" placeholder="Product name"> </textarea>
-                    <div class="text-muted fs-7">A category name is required and recommended to be unique.</div>
+                    <div class="text-muted fs-7">{{ __('blog::blogs.short_description_text') }}</div>
 
                 </div>
 
@@ -58,7 +47,7 @@
                     <textarea rows="3" class="mb-3 d-none" name="content" id="quill-editor-area">
 
                     </textarea>
-                    <div class="text-muted fs-7">Write page content here.You can also use html mode</div>
+                    <div class="text-muted fs-7">{{ __('blog::blogs.content_text') }}</div>
                 </div>
 
                 <div class="mb-10 fv-row">
@@ -68,19 +57,16 @@
                             data-hide-search="false" data-placeholder="Select appropriate tag">
                         <option></option>
                         @foreach($tags as $key => $tag)
-                            <option value="{{ $key }}">{{ $tag }}</option>
+                            <option value="{{ $tag }}">{{ $tag }}</option>
                         @endforeach
                     </select>
-
-                    <div class="text-muted fs-7">A category name is required and recommended to be unique.</div>
-
                 </div>
 
                 @include('backend.partials.seo-field',['model' => 'Invento-Blog-Models-Blog','column' => 'slug','seo' => $blog])
 
                 <div class="mt-10 fv-row">
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary"><span class="indicator-label">Submit</span>
+                        <button type="submit" class="btn btn-primary"><span class="indicator-label">{{ __('blog::blogs.submit') }}</span>
                         </button>
                     </div>
                 </div>
@@ -90,23 +76,38 @@
 
     </div>
 
-    <div class="d-flex flex-column gap-7 gap-lg-10 w-100  mb-7 w-lg-400px">
-        <div class="card card-flush py-4">
+    <div class="sidebar-div d-flex flex-column gap-7 gap-lg-10 w-100  mb-7 w-lg-400px">
+        <div class="card card-flush">
             <div class="card-header">
                 <div class="card-title">
-                    <h2>Thumbnail</h2>
+                    <h4>{{ __('blog::blogs.thumbnail') }}</h4>
                 </div>
             </div>
 
             <div class="card-body text-center pt-0">
-                @include('backend.pages.filemanager.input')
+                @include('backend.pages.filemanager.input',['image' => ''])
             </div>
         </div>
 
-        <div class="card card-flush py-4">
+        <div class="card card-flush">
             <div class="card-header">
                 <div class="card-title">
-                    <h2>Category</h2>
+                    <h4>{{ __('blog::blogs.is_featured') }}</h4>
+                </div>
+
+            </div>
+
+            <div class="card-body pt-0">
+                <label class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" name="is_featured" type="checkbox" checked />
+                </label>
+            </div>
+        </div>
+
+        <div class="card card-flush">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>{{ __('blog::blogs.category') }}</h4>
                 </div>
 
             </div>
@@ -122,18 +123,33 @@
             </div>
         </div>
 
-        <div class="card card-flush py-4">
+
+        <div class="card card-flush">
             <div class="card-header">
                 <div class="card-title">
-                    <h2>Status</h2>
+                    <h4>{{ __('blog::blogs.display_order') }}</h4>
+                </div>
+
+            </div>
+
+            <div class="card-body pt-0">
+                <input type="number" name="display_order" id="display_order" placeholder="{{ __('blog::blogs.display_order_text') }}" class="form-control" value=""/>
+            </div>
+        </div>
+
+
+        <div class="card card-flush">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>{{ __('blog::blogs.status') }}</h4>
                 </div>
             </div>
 
             <div class="card-body pt-0">
                 <select name="status" id=status class="form-select mb-2" data-control="select2" data-hide-search="true"
-                        data-placeholder="Select an option">
-                    @foreach(\Invento\Blog\Models\Blog::STATUS as $val)
-                        <option value="{{ $key }}">{{ $val }}</option>
+                        data-placeholder="{{ __('blog::blogs.status_text') }}">
+                    @foreach(\Invento\Blog\Models\Blog::STATUS as $value)
+                        <option value="{{ $value }}">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>

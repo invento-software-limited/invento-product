@@ -26,5 +26,8 @@ return [
     'delete' => 'Delete',
     'blog_category_added' => 'Blog category added successfully',
     'blog_category_updated' => 'Blog category updated successfully',
-    'blog_category_deleted' => 'Blog category deleted successfully'
+    'blog_category_deleted' => 'Blog category deleted successfully',
+    'blog_category_not_found' => 'Category not found',
+    'update' => 'Update',
+    'submit' => 'Submit',
 ];

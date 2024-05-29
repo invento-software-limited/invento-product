@@ -50,7 +50,7 @@
 
                 <div class="mt-10 fv-row">
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary"><span class="indicator-label">Submit</span>
+                        <button type="submit" class="btn btn-primary"><span class="indicator-label">{{ __('blog::categories.update') }}</span>
                         </button>
                     </div>
                 </div>

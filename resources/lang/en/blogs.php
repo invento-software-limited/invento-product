@@ -5,6 +5,8 @@ return [
     'blogs' => 'Blogs',
     'blog_list' => 'Blog List',
     'new_blog' => 'New Blog',
+    'delete' => 'Delete',
+    'edit' => 'Edit',
 
     'blog_title' => 'Blog Title',
     'blog_title_text' => 'Enter blog title (not more than 80 character)',
@@ -14,7 +16,7 @@ return [
     'content_text' => 'Enter blog content details',
     'tags' => 'Tag',
     'tag_text' => 'Enter blog tag for search optimization',
-    'thumbnail' => 'Thumbnail Image',
+    'thumbnail' => 'Thumbnail',
     'banner' => 'Banner Image',
     'featured' => 'Featured',
     'display_order' => 'Display Order',
@@ -35,6 +37,8 @@ return [
     'addedLast_modified_date' =>'Modified Date',
     'status' => 'Status',
     'category' => 'Category',
+    'is_featured' => 'Is Featured',
+    'created_at' => 'Created At',
 
     'no_blog_added' => 'There are no blogs added yet.',
     'click_to_add_blog' => 'Click here to add new blog.',
@@ -42,4 +46,15 @@ return [
     'add_blog' => 'Add Blog',
     'blog_details' => 'Blog Details',
 
+    'blog_added_successfully' => 'Blog added successfully',
+    'blog_updated_successfully' => 'Blog updated successfully',
+    'blog_deleted_successfully' => 'Blog deleted successfully',
+
+    'something_wrong' =>'Something went wrong',
+    'display_order_text' => 'Enter display order',
+    'submit' => 'Submit',
+    'update' => 'Update',
+    'update_configuration' => 'Configuration updated',
+    'configuration' => 'Configuration',
+    'blog_configuration' => 'Blog Configuration'
 ];

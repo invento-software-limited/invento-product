@@ -35,20 +35,20 @@
                                            data-kt-check-target=".widget-9-check">
                                 </div>
                             </th>
-                            <th>{{ __('blog::blogs.Thumbnail') }}</th>
-                            <th>{{ __('blog::blogs.BlogTitle') }}</th>
-                            <th>{{ __('blog::blogs.Category') }}</th>
-                            <th>{{ __('blog::blogs.PublishStatus') }}</th>
-                            <th>{{ __('blog::blogs.DisplayOrder') }}</th>
-                            <th class="pr-0">{{ __('blog::blogs.Status') }}</th>
-                            <th>{{ __('blog::blogs.AddedLastModifiedDate') }}</th>
-                            <th class="pr-0 text-right w-10">{{ __('blog::blogs.Action') }}</th>
+                            <th>{{ __('blog::blogs.blog_title') }}</th>
+                            <th>{{ __('blog::blogs.category') }}</th>
+                            <th class="text-center">{{ __('blog::blogs.publish_status') }}</th>
+                            <th class="text-center">{{ __('blog::blogs.is_featured') }}</th>
+                            <th class="text-center">{{ __('blog::blogs.display_order') }}</th>
+                            <th class="text-center">{{ __('blog::blogs.created_at') }}</th>
+                            <th class="pr-0 text-end w-10">{{ __('blog::blogs.action') }}</th>
                         </tr>
                         </thead>
                         <!--end::Table head-->
                         <!--begin::Table body-->
                         <tbody>
                         @foreach($blogs as $blog)
+
                             <tr>
                                 <td>
                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -56,57 +56,71 @@
                                                value="{{ $blog->id }}">
                                     </div>
                                 </td>
-                                <td>
+                                <td class="w-25">
                                     <div class="d-flex align-items-center">
                                         <div class="symbol symbol-45px me-5">
-                                            <img src="assets/media/avatars/300-14.jpg" alt="">
+                                            <img src="{{ $blog->thumbnail }}" alt="{{ __('blog::blogs.thumbnail') }}">
                                         </div>
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="#" class="text-dark fw-bold text-hover-primary fs-6">Ana
-                                                Simmons</a>
-                                            <span
-                                                class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                            <a href="{{ route('admin.blogs.edit',$blog->id) }}" class="text-dark text-hover-info fs-6">{{ $blog->title }}</a>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="#" class="text-dark fw-bold text-hover-primary d-block fs-6">Intertico</a>
-                                    <span
-                                        class="text-muted fw-semibold text-muted d-block fs-7">Web, UI/UX Design</span>
+                                    <a href="{{ route('admin.blogs.categories.edit',$blog->blog_category_id) }}" class="text-dark text-hover-info d-block fs-6">{{ $blog->category_name }}</a>
                                 </td>
-                                <td class="text-end">
-                                    <div class="d-flex flex-column w-100 me-2">
-                                        <div class="d-flex flex-stack mb-2">
-                                            <span class="text-muted me-2 fs-7 fw-bold">50%</span>
-                                        </div>
-                                        <div class="progress h-6px w-100">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 50%"
-                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
+                                <td class="text-center d-flex justify-content-center align-items-center border-0">
+                                    <label class="form-check form-switch form-check-custom form-check-solid mt-3">
+                                        <input class="form-check-input statusCheckbox" name="status" data-id="{{ $blog->id }}" onclick="event.preventDefault(); document.getElementById('statusForm-{{$blog->id}}').submit();"
+                                               type="checkbox" {{ $blog->status ? 'checked' : '' }} />
+                                    </label>
+
+                                    {!! Form::open(array('route' =>['admin.blogs.update',$blog->id], 'method'=>'patch' ,'id' => 'statusForm-'.$blog->id)) !!}
+                                    <input type="hidden" name="status_switch" value="{{ $blog->status }}">
+                                    {!! Form::close() !!}
                                 </td>
+
+                                <td class="text-center">
+                                    <a class="text-dark text-hover-info d-block fs-6">{{ $blog->is_featured ? 'True' : 'False' }}</a>
+                                </td>
+
+                                <td class="text-center">
+                                    <a class="text-dark text-hover-info d-block fs-6">{{ $blog->display_order }}</a>
+                                </td>
+
+                                <td class="text-center">
+                                    <a class="text-dark text-hover-info d-block fs-6">{{ date('M d, Y',strtotime($blog->created_at)) }}</a>
+                                </td>
+
                                 <td class="text-end">
                                     <a href="#"
                                        class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
-                                       data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                       data-kt-menu-trigger="click"
+                                       data-kt-menu-placement="bottom-end">{{ __('blog::blogs.action') }}
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                    <!--begin::Menu-->
+
                                     <div
-                                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                        data-kt-menu="true">
-                                        <!--begin::Menu item-->
+                                            class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                            data-kt-menu="true">
+
                                         <div class="menu-item px-3">
-                                            <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                               class="menu-link px-3">Edit</a>
+                                            <a href="{{ route('admin.blogs.edit',$blog->id) }}"
+                                               class="menu-link px-3">{{ __('blog::blogs.edit') }}</a>
                                         </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
+
                                         <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
+                                            <a href="#" class="menu-link px-3 delete_table_row"
+                                               data-row="{{ $blog->id }}">{{  __('blog::blogs.delete')  }}</a>
                                         </div>
-                                        <!--end::Menu item-->
+
+                                        <form id="delete_form_{{ $blog->id }}" method="post"
+                                              action="{{ route('admin.blogs.destroy',$blog->id) }}">
+                                            @csrf
+                                            @method('delete')
+                                        </form>
+
                                     </div>
-                                    <!--end::Menu-->
+
                                 </td>
                             </tr>
                         @endforeach
@@ -138,7 +152,7 @@
                 <!--end::Illustration-->
             </div>
         @endif
-    <!--end::Card body-->
+        <!--end::Card body-->
     </div>
 
 

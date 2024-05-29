@@ -64,7 +64,7 @@
                                 </td>
 
                                 <td class="text-center d-flex justify-content-center align-items-center border-0">
-                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                    <label class="form-check form-switch form-check-custom form-check-solid mt-3">
                                         <input class="form-check-input statusCheckbox" name="status" data-id="{{ $category->id }}" onclick="event.preventDefault(); document.getElementById('statusForm-{{$category->id}}').submit();"
                                                type="checkbox" {{ $category->status ? 'checked' : '' }} />
                                     </label>

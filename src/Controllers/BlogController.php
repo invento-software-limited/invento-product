@@ -11,17 +11,14 @@ use Illuminate\Http\Response;
 use Invento\Blog\Models\Blog;
 use Invento\Blog\Models\Category;
 use Invento\Blog\Requests\BlogRequest;
+use Invento\Blog\Services\BlogService;
 use Spatie\Tags\Tag;
 use App\Models\TagManager;
+use Brian2694\Toastr\Facades\Toastr;
 
 class BlogController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|Response
-     */
     public function index()
     {
         $data['blogs'] = Blog::query()
@@ -32,84 +29,69 @@ class BlogController extends Controller
         return view("blog::blogs.index",$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|Response
-     */
     public function create()
     {
         $data['categories'] = Category::active()->pluck('name','id')->toArray();
-        $data['tags'] = Tag::where('type', TagManager::TYPE['Blog'])->orWhere('type', null)->pluck('name', 'id');
+        $data['tags'] = Tag::where('type', TagManager::TYPE['Blog'])->pluck('name', 'id');
         $data['blog'] = new Blog();
 
         return view('blog::blogs.create',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
         $category = Category::where('id',$request->category)
             ->active()
             ->first();
+
         if(!$category){
-            Helpers::toastMsg(__('blogs.CategoryNotFound'), __('blogs.Blog'),Helpers::SUCCESS);
+            Toastr::success(__('blog::categories.blog_category_not_found'),__('blog::categories.blog_category'));
             return back()->withInput();
         }
         $response = BlogService::store($request,$category);
         return $response ?  redirect()->route('admin.blogs.index') : back()->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Blog $blog
-     * @return Response
-     */
     public function edit(Blog $blog)
     {
-        $data = [
-            'blog'          => $blog,
-            'categories'    => Category::active()->pluck('name','id')->toArray(),
-            'tags'          => Tag::where('status', true)->pluck('name', 'id')->toArray()
-        ];
+        $data['blog'] = $blog->load('tags');
+        $data['selected_tags'] = $blog->tags->pluck('id')->toArray();
+        $data['categories'] = Category::active()->pluck('name','id')->toArray();
+        $data['tags'] = Tag::where('type', TagManager::TYPE['Blog'])->pluck('name', 'id');
 
-        return view('backend.blogs.blogs.edit',$data);
+        return view('blog::blogs.edit',$data);
     }
 
 
-    /**
-     * @param BlogRequest $request
-     * @param Blog $blog
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
-    public function update(BlogRequest $request, Blog $blog)
+
+    public function update(Request $request, Blog $blog)
     {
-        $category = Category::where('id',$request->category)
-            ->active()
-            ->first();
-        if(!$category){
-            Helpers::toastMsg(__('blogs.CategoryNotFound'), __('blogs.Blog'),Helpers::SUCCESS);
-            return back()->withInput();
+        if($request->has('status_switch')){
+            $blog->update([
+                'status' => !$blog->status,
+            ]);
+
+            Toastr::success(__('blog::blogs.blog_updated_successfully'),__('blog::blogs.blog'));
+
+            return back();
+        }else{
+            $category = Category::where('id',$request->category)
+                ->active()
+                ->first();
+
+            if(!$category){
+                Toastr::success(__('blog::categories.blog_category_not_found'),__('blog::categories.blog_category'));
+                return back()->withInput();
+            }
+            $response = BlogService::update($request,$blog,$category);
+            return $response ?  back() : back()->withInput();
         }
-        $response = BlogService::update($request,$blog,$category);
-        return $response ?  back() : back()->withInput();
+
     }
 
     /**
@@ -121,11 +103,8 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         $blog->delete();
-        Helpers::toastMsg(__('blogs.BlogDelete'), __('blogs.Blog'),Helpers::SUCCESS);
+        Toastr::success(__('blog::blogs.blog_deleted_successfully'),__('blog::blogs.blog'));
         return back();
     }
 
-    public function activeBlog(Blog $blog){
-
-    }
 }
