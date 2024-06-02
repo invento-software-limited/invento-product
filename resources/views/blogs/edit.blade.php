@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="mb-10 fv-row">
-                    <label class="required form-label">{{ __('blog::blogs.short_description') }}</label>
+                    <label class="form-label">{{ __('blog::blogs.short_description') }}</label>
                     <textarea rows="5" name="short_description" id="short_description"
                               class="form-control mb-2 meta_description" placeholder="Product name">{{ $blog->short_description }} </textarea>
                     <div class="text-muted fs-7">{{ __('blog::blogs.short_description_text') }}</div>
