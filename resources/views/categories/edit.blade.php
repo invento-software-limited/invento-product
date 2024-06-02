@@ -48,6 +48,8 @@
 
                 @include('backend.partials.seo-field',['model' => 'Invento-Blog-Models-Category','column' => 'slug','seo' => $category])
 
+                @custom_fields(\App\Models\CustomField::MODULES['Blog Category'], $category->id)
+
                 <div class="mt-10 fv-row">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary"><span class="indicator-label">{{ __('blog::categories.update') }}</span>

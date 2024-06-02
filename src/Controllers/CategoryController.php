@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application as ApplicationAlias;
 use Illuminate\Http\Request;
 use Invento\Blog\Models\Category;
 use Invento\Blog\Requests\CategoryRequest;
+use App\Services\CustomFieldService;
 
 class CategoryController extends Controller
 {
@@ -30,13 +31,15 @@ class CategoryController extends Controller
     }
 
     public function store(CategoryRequest $request){
-        Category::create([
+        $category = Category::create([
            'name' => $request->name,
            'display_order' => $request->display_order,
             'status' => $request->has('status'),
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
         ]);
+
+        CustomFieldService::add($request->custom_fields,$category,\App\Models\CustomField::MODULES['Blog Category']);
 
         Toastr::success(__('blog::categories.blog_category_added'),__('blog::categories.blog_category'));
 
@@ -62,6 +65,8 @@ class CategoryController extends Controller
                 'meta_title' => $request->meta_title,
                 'meta_description' => $request->meta_description,
             ]);
+
+            CustomFieldService::add($request->custom_fields,$category,\App\Models\CustomField::MODULES['Blog Category']);
         }
 
         Toastr::success(__('blog::categories.blog_category_updated'),__('blog::categories.blog_category'));
