@@ -64,6 +64,8 @@
 
                 @include('backend.partials.seo-field',['model' => 'Invento-Blog-Models-Blog','column' => 'slug','seo' => $blog])
 
+                @custom_fields(\App\Models\CustomField::MODULES['Blog'], null)
+
                 <div class="mt-10 fv-row">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary"><span class="indicator-label">{{ __('blog::blogs.submit') }}</span>
@@ -85,7 +87,7 @@
             </div>
 
             <div class="card-body text-center pt-0">
-                @include('backend.pages.filemanager.input',['image' => ''])
+                @include('backend.pages.filemanager.input',['image' => '','name' => 'thumbnail'])
             </div>
         </div>
 

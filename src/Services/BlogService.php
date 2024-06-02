@@ -2,6 +2,7 @@
 
 namespace Invento\Blog\Services;
 
+use App\Services\CustomFieldService;
 use Illuminate\Support\Facades\DB;
 use Invento\Blog\Models\Blog;
 use App\Models\TagManager;
@@ -21,6 +22,8 @@ class BlogService
             $validateData['category_name'] = $category->name;
 
             $blog = Blog::create($validateData);
+
+            CustomFieldService::add($request->custom_fields,$blog,\App\Models\CustomField::MODULES['Blog']);
 
             if ($request->input('tag')) {
                 $blog->syncTagsWithType($request->input('tag'),TagManager::TYPE['Blog']);
@@ -51,6 +54,8 @@ class BlogService
             $validateData['category_name'] = $category->name;
 
             $blog->update($validateData);
+
+            CustomFieldService::add($request->custom_fields,$blog,\App\Models\CustomField::MODULES['Blog']);
 
             if ($request->input('tag')) {
                 $blog->syncTagsWithType($request->input('tag'),TagManager::TYPE['Blog']);

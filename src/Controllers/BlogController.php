@@ -49,6 +49,7 @@ class BlogController extends Controller
             return back()->withInput();
         }
         $response = BlogService::store($request,$category);
+
         return $response ?  redirect()->route('admin.blogs.index') : back()->withInput();
     }
 
