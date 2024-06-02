@@ -24,7 +24,7 @@ class BlogServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/blog')
-        ], 'views');
+        ], 'blog-views');
 
         $this->publishes([
             __DIR__ . '/public' => public_path('vendor/blog')
@@ -34,7 +34,7 @@ class BlogServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../migrations/2024_04_26_105140_create_blogs_table.php' => database_path('migrations/' . date('Y_m_d_His') . '_create_blogs_table.php')
-        ], 'migrations');
+        ], 'blog-migrations');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/breadcrumbs.php');
