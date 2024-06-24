@@ -74,20 +74,20 @@ class Blog extends Model
 
     public function getThumbnailAttribute(): string
     {
-        return Storage::exists($this->attributes['thumbnail']) ? url('storage/' . $this->attributes['thumbnail']) : url('storage/blog_thumbnails/default.jpg');
+        return $this->attributes['thumbnail'] ? url('storage/' . $this->attributes['thumbnail']) : url('storage/blog_thumbnails/default.jpg');
     }
 
     public function getHasThumbnailAttribute(){
-        return Storage::exists($this->attributes['thumbnail']) ? $this->attributes['thumbnail'] : false;
+        return $this->attributes['thumbnail'] ? $this->attributes['thumbnail'] : false;
     }
 
     public function getBannerAttribute(): string
     {
-        return Storage::exists($this->attributes['banner']) ? url('storage/' . $this->attributes['banner']) : url('storage/blog_banners/default.jpg');
+        return $this->attributes['banner'] ? url('storage/' . $this->attributes['banner']) : url('storage/blog_banners/default.jpg');
     }
 
     public function getHasBannerAttribute(){
-        return Storage::exists($this->attributes['banner']) ? $this->attributes['banner'] : false;
+        return $this->attributes['banner'] ? $this->attributes['banner'] : false;
     }
 
 
