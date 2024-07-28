@@ -13,9 +13,9 @@
         {{ Breadcrumbs::render('blogs.edit') }}
     @endsection
 
-    {!! Form::open(array('route' =>['admin.blogs.update',$blog->id], 'method'=>'patch','class'=>'form d-flex flex-column flex-lg-row' ,'id' => 'kt_blog_form')) !!}
+    {!! Form::open(array('route' =>['admin.blogs.update',$blog->id], 'method'=>'patch','class'=>'form' ,'id' => 'kt_blog_form')) !!}
 
-        <div class="d-flex row">
+        <div class="row">
             <div class="col-lg-9">
                 <div class="card card-flush py-4">
                     <div class="card-header">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 sidebar-div">
+            <div class="col-lg-3">
                 <div class="card card-flush">
                     <div class="card-header">
                         <div class="card-title">
