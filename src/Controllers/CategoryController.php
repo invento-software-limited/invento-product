@@ -35,8 +35,8 @@ class CategoryController extends Controller
            'name' => $request->name,
            'display_order' => $request->display_order,
             'status' => $request->has('status'),
-            'meta_title' => $request->meta_title,
-            'meta_description' => $request->meta_description,
+            'meta_title' => $request->meta_title ?? $request->name,
+            'meta_description' => $request->meta_description ?? '',
         ]);
 
         CustomFieldService::add($request->custom_fields,$category,\App\Models\CustomField::MODULES['Blog Category']);
@@ -62,8 +62,8 @@ class CategoryController extends Controller
                 'name' => $request->name,
                 'display_order' => $request->display_order,
                 'status' => $request->has('status'),
-                'meta_title' => $request->meta_title,
-                'meta_description' => $request->meta_description,
+                'meta_title' => $request->meta_title ?? $request->name,
+                'meta_description' => $request->meta_description ?? '',
             ]);
 
             CustomFieldService::add($request->custom_fields,$category,\App\Models\CustomField::MODULES['Blog Category']);

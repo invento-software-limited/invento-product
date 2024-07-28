@@ -16,6 +16,14 @@ class BlogService
         try {
             $validateData = $request->only(['title', 'short_description', 'content', 'thumbnail', 'meta_title', 'meta_description', 'display_order']);
 
+            if(!$validateData['meta_title']){
+                $validateData['meta_title'] = $request->title;
+            }
+
+            if(!$validateData['meta_description']){
+                $validateData['meta_description'] = $request->short_description;
+            }
+
             $validateData['status'] = $request->status == Blog::STATUS['Published'];
             $validateData['is_featured'] = $request->has('is_featured');
             $validateData['blog_category_id'] = $category->id;
@@ -47,6 +55,14 @@ class BlogService
 
         try {
             $validateData = $request->only(['title', 'short_description','content', 'thumbnail', 'meta_title', 'meta_description','display_order']);
+
+            if(!$validateData['meta_title']){
+                $validateData['meta_title'] = $request->title;
+            }
+
+            if(!$validateData['meta_description']){
+                $validateData['meta_description'] = $request->short_description;
+            }
 
             $validateData['status'] = $request->status == Blog::STATUS['Published'];
             $validateData['is_featured'] = $request->has('is_featured');
