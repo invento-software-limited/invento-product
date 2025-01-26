@@ -30,11 +30,15 @@ class DoctorServiceProvider extends ServiceProvider
             __DIR__ . '/public' => public_path('vendor/doctor')
         ], 'assets');
 
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/doctor')
+        ], 'doctor-lang');
+
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'doctor');
 
         $this->publishes([
             __DIR__ . '/../migrations/2025_01_21_105140_create_doctors_table.php' => database_path('migrations/' .'2025_01_21_105140_create_doctors_table.php')
-        ], 'doctor-migrations');
+        ], 'doctor-migration');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/breadcrumbs.php');
