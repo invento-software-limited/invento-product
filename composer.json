@@ -1,6 +1,6 @@
 {
-    "name": "invento/doctor",
-    "description": "Laravel doctor for multi-purpose application",
+    "name": "invento/product",
+    "description": "Laravel product for multi-purpose application",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Invento\\Doctor\\DoctorServiceProvider"
+                "Invento\\Product\\ProductServiceProvider"
             ]
         }
     }
