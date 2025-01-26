@@ -25,6 +25,10 @@ class DoctorServiceProvider extends ServiceProvider
         ], 'doctor-views');
 
         $this->publishes([
+            __DIR__ . '/public' => public_path('vendor/doctor')
+        ], 'doctor-assets');
+
+        $this->publishes([
             __DIR__ . '/../resources/lang' => 'lang/vendor/doctor'
         ], 'doctor-lang');
 
