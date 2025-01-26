@@ -39,15 +39,21 @@ Compatible  with only Laravel multi-purpose CMS
     ```sh
     php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-lang"
     ```
+
+3. Publish the asset file if you want to change any defaults:
+
+    ```sh
+    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-assets"
+    ```
    
-4. Publish the migration file if you want to change any defaults:
+5. Publish the migration file if you want to change any defaults:
 
     ```sh
     php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-migration"
     ```
 
 
-5. At last clear cache and run autoload:
+6. At last clear cache and run autoload:
 
     ```sh
    php artisan optimize

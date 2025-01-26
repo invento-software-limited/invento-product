@@ -20,26 +20,25 @@ class DoctorServiceProvider extends ServiceProvider
             __DIR__ . '/../config/doctor.php' => config_path('doctor.php')
         ], 'doctor-config');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'doctor');
-
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/doctor')
         ], 'doctor-views');
 
         $this->publishes([
             __DIR__ . '/public' => public_path('vendor/doctor')
-        ], 'assets');
+        ], 'doctor-assets');
 
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/doctor')
+            __DIR__ . '/../resources/lang' => lang_path('vendor/doctor')
         ], 'doctor-lang');
-
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'doctor');
 
         $this->publishes([
             __DIR__ . '/../migrations/2025_01_21_105140_create_doctors_table.php' => database_path('migrations/' .'2025_01_21_105140_create_doctors_table.php')
         ], 'doctor-migration');
 
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'doctor');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'doctor');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/breadcrumbs.php');
     }
