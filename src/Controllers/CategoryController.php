@@ -9,11 +9,11 @@ use Illuminate\Contracts\View\Factory as FactoryAlias;
 use Illuminate\Contracts\View\View as ViewAlias;
 use Illuminate\Foundation\Application as ApplicationAlias;
 use Illuminate\Http\Request;
-use Invento\Doctor\Models\Department;
-use Invento\Doctor\Requests\DepartmentRequest;
+use Invento\Doctor\Models\Category;
+use Invento\Doctor\Requests\CategoryRequestRequest;
 use App\Services\CustomFieldService;
 
-class DepartmentController extends Controller
+class CategoryController extends Controller
 {
     public function __construct()
     {
@@ -24,7 +24,7 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        $data['departments'] = Department::query()
+        $data['departments'] = Category::query()
             ->search(request()->input('query'))
             ->orderByDesc('id')
             ->paginate(10);
@@ -34,13 +34,13 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        $data['department'] = new Department();
+        $data['department'] = new Category();
         return view("doctor::departments.create", $data);
     }
 
-    public function store(DepartmentRequest $request)
+    public function store(CategoryRequestRequest $request)
     {
-        $category = Department::create([
+        $category = Category::create([
             'name' => $request->name,
             'status' => $request->has('status'),
             'meta_title' => $request->meta_title ?? $request->name,
@@ -54,13 +54,13 @@ class DepartmentController extends Controller
         return redirect()->route('admin.doctors.departments.index');
     }
 
-    public function edit(Department $department)
+    public function edit(Category $department)
     {
         $data['department'] = $department;
         return view("doctor::departments.edit", $data);
     }
 
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Category $department)
     {
         if ($request->has('status_switch')) {
             $department->update([
@@ -83,7 +83,7 @@ class DepartmentController extends Controller
         return back();
     }
 
-    public function destroy(Department $category)
+    public function destroy(Category $category)
     {
         $category->delete();
         Toastr::success(__('blog::categories.blog_category_deleted'), __('blog::categories.blog_category'));

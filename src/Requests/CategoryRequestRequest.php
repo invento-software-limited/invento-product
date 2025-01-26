@@ -4,9 +4,9 @@ namespace Invento\Doctor\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Invento\Doctor\Models\Department;
+use Invento\Doctor\Models\Category;
 
-class DepartmentRequest extends FormRequest
+class CategoryRequestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -4,9 +4,9 @@ namespace Invento\Doctor\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Invento\Doctor\Models\Doctor;
+use Invento\Doctor\Models\Product;
 
-class DoctorRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,7 +31,7 @@ class DoctorRequest extends FormRequest
             'qualification' => ['required', 'string'],
             'designation' => ['required', 'string'],
             'id_number' => ['nullable', 'string'],
-            'gender' => ['nullable', Rule::in(Doctor::GENDER)],
+            'gender' => ['nullable', Rule::in(Product::GENDER)],
             'dob' => ['nullable'],
             'email' => ['nullable', 'email','string'],
             'phone' => ['nullable', 'string'],

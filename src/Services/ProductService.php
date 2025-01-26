@@ -6,10 +6,10 @@ use App\Services\CustomFieldService;
 use Illuminate\Support\Facades\DB;
 use App\Models\TagManager;
 use Brian2694\Toastr\Facades\Toastr;
-use Invento\Doctor\Models\Department;
-use Invento\Doctor\Models\Doctor;
+use Invento\Doctor\Models\Category;
+use Invento\Doctor\Models\Product;
 
-class DoctorService
+class ProductService
 {
     public static function store($request)
     {
@@ -26,16 +26,16 @@ class DoctorService
                 $validateData['meta_description'] = $request->description;
             }
 
-            $validateData['status'] = $request->status == Doctor::STATUS['Published'];
+            $validateData['status'] = $request->status == Product::STATUS['Published'];
 
-            $department = Department::where('id',$request->department)
+            $department = Category::where('id',$request->department)
                 ->active()
                 ->first();
 
             $validateData['doctor_department_id'] = $department->id;
             $validateData['department_name'] = $department->name;
             try {
-                $doctor = Doctor::create($validateData);
+                $doctor = Product::create($validateData);
             }catch (\Exception $exception){
                 dd($exception->getMessage());
             }
@@ -69,9 +69,9 @@ class DoctorService
                 $validateData['meta_description'] = $request->short_description;
             }
 
-            $validateData['status'] = $request->status == Doctor::STATUS['Published'];
+            $validateData['status'] = $request->status == Product::STATUS['Published'];
 
-            $department = Department::where('id',$request->department)
+            $department = Category::where('id',$request->department)
                 ->active()
                 ->first();
 

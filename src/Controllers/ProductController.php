@@ -8,15 +8,15 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Invento\Doctor\Models\Doctor;
-use Invento\Doctor\Models\Department;
-use Invento\Doctor\Requests\DoctorRequest;
-use Invento\Doctor\Services\DoctorService;
+use Invento\Doctor\Models\Product;
+use Invento\Doctor\Models\Category;
+use Invento\Doctor\Requests\ProductRequest;
+use Invento\Doctor\Services\ProductService;
 use Spatie\Tags\Tag;
 use App\Models\TagManager;
 use Brian2694\Toastr\Facades\Toastr;
 
-class DoctorController extends Controller
+class ProductController extends Controller
 {
 
     public function __construct()
@@ -28,7 +28,7 @@ class DoctorController extends Controller
     
     public function index()
     {
-        $data['doctors'] = Doctor::query()
+        $data['doctors'] = Product::query()
             ->search(request()->input('query'))
             ->orderByDesc('created_at')
             ->paginate(10);
@@ -38,16 +38,16 @@ class DoctorController extends Controller
 
     public function create()
     {
-        $data['departments'] = Department::active()->pluck('name','id')->toArray();
-        $data['doctor'] = new Doctor();
+        $data['departments'] = Category::active()->pluck('name','id')->toArray();
+        $data['doctor'] = new Product();
 
         return view('doctor::doctors.create',$data);
     }
 
-    public function store(DoctorRequest $request)
+    public function store(ProductRequest $request)
     {
 
-        $response = DoctorService::store($request);
+        $response = ProductService::store($request);
 
         return $response ?  redirect()->route('admin.doctors.index') : back()->withInput();
     }
@@ -57,9 +57,9 @@ class DoctorController extends Controller
         //
     }
 
-    public function edit(Doctor $doctor)
+    public function edit(Product $doctor)
     {
-        $data['departments'] = Department::active()->pluck('name','id')->toArray();
+        $data['departments'] = Category::active()->pluck('name','id')->toArray();
         $data['doctor'] = $doctor;
 
         return view('doctor::doctors.edit',$data);
@@ -67,7 +67,7 @@ class DoctorController extends Controller
 
 
 
-    public function update(Request $request, Doctor $doctor)
+    public function update(Request $request, Product $doctor)
     {
         if($request->has('status_switch')){
             $doctor->update([
@@ -79,7 +79,7 @@ class DoctorController extends Controller
             return back();
         }else{
 
-            $response = DoctorService::update($request,$doctor);
+            $response = ProductService::update($request,$doctor);
             return $response ?  back() : back()->withInput();
         }
 
@@ -88,10 +88,10 @@ class DoctorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Doctor $doctor
+     * @param  Product $doctor
      * @return Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy(Product $doctor)
     {
         $doctor->delete();
         Toastr::success(__('doctor::doctors.doctor_deleted_successfully'),__('doctor::doctors.doctor'));

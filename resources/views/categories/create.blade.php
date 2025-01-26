@@ -65,7 +65,7 @@
         <!-- Laravel Javascript Validation -->
         <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
-        {!! JsValidator::formRequest('Invento\Doctor\Requests\DepartmentRequest', '#kt_doctor_department_form') !!}
+        {!! JsValidator::formRequest('Invento\Doctor\Requests\CategoryRequestRequest', '#kt_doctor_department_form') !!}
 
     @endpush
 
