@@ -14,7 +14,7 @@ return [
     'type_department_information' => 'Type department information',
     'welcome_to_doctor_department' => 'Welcome to Invento Doctor Department',
     'name' => 'Name',
-    'name_text' => 'Enter department name',
+    'name_text' => 'Enter the name of the department (e.g., Cardiology, Pediatrics, Orthopedics)',
     'status' => 'Status',
     'created_at' => 'Created At',
     'action' => 'Action',
