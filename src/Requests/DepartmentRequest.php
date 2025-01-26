@@ -1,12 +1,12 @@
 <?php
 
-namespace Invento\Blog\Requests;
+namespace Invento\Doctor\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Invento\Blog\Models\Category;
+use Invento\Doctor\Models\Department;
 
-class CategoryRequest extends FormRequest
+class DepartmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +27,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => ['required','string','min:4','max:50'],
-            'display_order' => ['nullable','numeric'],
-            'meta_title' => ['nullable','string','min:4'],
-            'meta_description' => ['nullable','string','min:4'],
         ];
 
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Blog\Models;
+namespace Invento\Doctor\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
@@ -8,18 +8,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Department extends Model
 {
     use HasFactory, Sluggable, SoftDeletes;
 
-    protected $table = 'blog_categories';
+    protected $table = 'doctor_departments';
     protected $fillable = [
         'name',
         'status',
         'slug',
-        'display_order',
         'meta_title',
-        'meta_description'
+        'meta_description',
     ];
 
     /**

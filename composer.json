@@ -1,6 +1,6 @@
 {
-    "name": "invento/blog",
-    "description": "Laravel blog for multi-purpose application",
+    "name": "invento/doctor",
+    "description": "Laravel doctor for multi-purpose application",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -15,13 +15,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Invento\\Blog\\": "src/"
+            "Invento\\Doctor\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Invento\\Blog\\BlogServiceProvider"
+                "Invento\\Doctor\\DoctorServiceProvider"
             ]
         }
     }

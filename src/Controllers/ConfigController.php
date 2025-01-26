@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Blog\Controllers;
+namespace Invento\Doctor\Controllers;
 
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
@@ -10,21 +10,21 @@ class ConfigController extends Controller
 {
     public function index(){
         $this->store = Valuestore::make(resource_path('settings/settings.json'));
-        $data['status'] = $this->store->has('blog') ? $this->store->get('blog')['status'] : '';
-        return view('blog::config',$data);
+        $data['status'] = $this->store->has('doctor') ? $this->store->get('doctor')['status'] : '';
+        return view('doctor::config',$data);
     }
 
 
     public function store(Request $request){
         $this->store = Valuestore::make(resource_path('settings/settings.json'));
 
-        $data['blog'] = [
+        $data['doctor'] = [
             'status' => $request->has('status')
         ];
 
         $this->store->put($data);
 
-        Toastr::success(__('blog::blogs.update_configuration'),__('blog:blogs.blog'));
+        Toastr::success(__('doctor::doctors.update_configuration'),__('doctor:doctors.blog'));
 
         return back();
     }
