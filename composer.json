@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Invento\\Doctor\\": "src/"
+            "Invento\\Product\\": "src/"
         }
     },
     "extra": {
