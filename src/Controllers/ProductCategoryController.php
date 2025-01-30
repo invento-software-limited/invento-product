@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor\Controllers;
+namespace Invento\Product\Controllers;
 
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
@@ -9,58 +9,58 @@ use Illuminate\Contracts\View\Factory as FactoryAlias;
 use Illuminate\Contracts\View\View as ViewAlias;
 use Illuminate\Foundation\Application as ApplicationAlias;
 use Illuminate\Http\Request;
-use Invento\Doctor\Models\Category;
-use Invento\Doctor\Requests\CategoryRequestRequest;
+use Invento\Product\Models\ProductCategory;
+use Invento\Product\Requests\CategoryRequestRequest;
 use App\Services\CustomFieldService;
 
-class CategoryController extends Controller
+class ProductCategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['permission:view doctor departments'])->only(['index']);
-        $this->middleware(['permission:add and update doctor department'])->only(['create', 'store', 'edit', 'update']);
-        $this->middleware(['permission:delete doctor department'])->only(['destroy']);
+        $this->middleware(['permission:view product categories'])->only(['index']);
+        $this->middleware(['permission:add and update product category'])->only(['create', 'store', 'edit', 'update']);
+        $this->middleware(['permission:delete product category'])->only(['destroy']);
     }
 
     public function index()
     {
-        $data['departments'] = Category::query()
+        $data['categories'] = ProductCategory::query()
             ->search(request()->input('query'))
             ->orderByDesc('id')
             ->paginate(10);
 
-        return view("doctor::departments.index", $data);
+        return view("product::categories.index", $data);
     }
 
     public function create()
     {
-        $data['department'] = new Category();
-        return view("doctor::departments.create", $data);
+        $data['categories'] = ProductCategory::active()->pluck('name', 'id')->toArray();
+        return view("product::categories.create", $data);
     }
 
     public function store(CategoryRequestRequest $request)
     {
-        $category = Category::create([
+        $category = ProductCategory::create([
             'name' => $request->name,
-            'status' => $request->has('status'),
-            'meta_title' => $request->meta_title ?? $request->name,
-            'meta_description' => $request->meta_description ?? '',
+            'parent_id' => $request->parent_id,
+            'icon' => $request->icon,
+            'status' => $request->has('status')
         ]);
 
-        CustomFieldService::add($request->custom_fields, $category, \App\Models\CustomField::MODULES['Doctor Department']);
+        CustomFieldService::add($request->custom_fields, $category, \App\Models\CustomField::MODULES['Product Category']);
 
-        Toastr::success(__('doctor::departments.department_added_successfully'), __('doctor::departments.department'));
+        Toastr::success(__('product::categories.category_added_successfully'), __('product::categories.category'));
 
-        return redirect()->route('admin.doctors.departments.index');
+        return redirect()->route('admin.products.categories.index');
     }
 
-    public function edit(Category $department)
+    public function edit(ProductCategory $department)
     {
         $data['department'] = $department;
         return view("doctor::departments.edit", $data);
     }
 
-    public function update(Request $request, Category $department)
+    public function update(Request $request, ProductCategory $department)
     {
         if ($request->has('status_switch')) {
             $department->update([
@@ -83,7 +83,7 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function destroy(Category $category)
+    public function destroy(ProductCategory $category)
     {
         $category->delete();
         Toastr::success(__('blog::categories.blog_category_deleted'), __('blog::categories.blog_category'));

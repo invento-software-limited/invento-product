@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor\Controllers;
+namespace Invento\Product\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
@@ -8,10 +8,10 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Invento\Doctor\Models\Product;
-use Invento\Doctor\Models\Category;
-use Invento\Doctor\Requests\ProductRequest;
-use Invento\Doctor\Services\ProductService;
+use Invento\Product\Models\Product;
+use Invento\Product\Models\ProductCategory;
+use Invento\Product\Requests\ProductRequest;
+use Invento\Product\Services\ProductService;
 use Spatie\Tags\Tag;
 use App\Models\TagManager;
 use Brian2694\Toastr\Facades\Toastr;
@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $data['departments'] = Category::active()->pluck('name','id')->toArray();
+        $data['departments'] = ProductCategory::active()->pluck('name','id')->toArray();
         $data['doctor'] = new Product();
 
         return view('doctor::doctors.create',$data);
@@ -59,7 +59,7 @@ class ProductController extends Controller
 
     public function edit(Product $doctor)
     {
-        $data['departments'] = Category::active()->pluck('name','id')->toArray();
+        $data['departments'] = ProductCategory::active()->pluck('name','id')->toArray();
         $data['doctor'] = $doctor;
 
         return view('doctor::doctors.edit',$data);

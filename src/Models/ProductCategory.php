@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor\Models;
+namespace Invento\Product\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
@@ -8,18 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class ProductCategory extends Model
 {
     use HasFactory, Sluggable, SoftDeletes;
 
-    protected $table = 'doctor_departments';
-    protected $fillable = [
-        'name',
-        'status',
-        'slug',
-        'meta_title',
-        'meta_description',
-    ];
+    protected $table = 'product_categories';
+    protected $guarded = [];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -73,5 +67,10 @@ class Category extends Model
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where('status', true);
+    }
+
+    public function parent()
+    {
+        return
     }
 }

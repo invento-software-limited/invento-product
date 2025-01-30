@@ -1,10 +1,10 @@
 <?php
 
-namespace Invento\Doctor\Requests;
+namespace Invento\Product\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Invento\Doctor\Models\Product;
+use Invento\Product\Models\Product;
 
 class ProductRequest extends FormRequest
 {
