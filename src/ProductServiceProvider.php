@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor;
+namespace Invento\Product;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;

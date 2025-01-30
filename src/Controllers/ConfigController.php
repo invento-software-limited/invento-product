@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor\Controllers;
+namespace Invento\Product\Controllers;
 
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;

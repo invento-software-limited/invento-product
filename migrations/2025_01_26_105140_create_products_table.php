@@ -40,6 +40,7 @@ return new class extends Migration
             $table->decimal('sale_price', 23, 2)->nullable();
             $table->decimal('discount_price', 23, 2)->nullable();
             $table->string('thumbnail')->nullable();
+            $table->string('other_images')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
             $table->softDeletes();
@@ -48,7 +49,7 @@ return new class extends Migration
 
         // Insert permissions for the blog module
         $permissions_list = [
-            'products' => ['view categories','add and update category','delete category','view products','add and update product','delete product']
+            'products' => ['view product categories','add and update product category','delete product category','view products','add and update product','delete product']
         ];
 
         foreach ($permissions_list as $key => $permissions) {
@@ -71,10 +72,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctors');
-        Schema::dropIfExists('doctor_departments');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('product_categories');
 
-        $permissions =  DB::table('permissions')->where('prefix', 'manage doctor')->pluck('id')->toArray();
+        $permissions =  DB::table('permissions')->where('prefix', 'products')->pluck('id')->toArray();
         DB::table('role_has_permissions')->whereIn('permission_id', $permissions)->delete();
         DB::table('model_has_permissions')->whereIn('permission_id', $permissions)->delete();
         DB::table('permissions')->whereIn('id', $permissions)->delete();

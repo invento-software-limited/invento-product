@@ -1,10 +1,10 @@
 <?php
 
-namespace Invento\Doctor\Requests;
+namespace Invento\Product\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Invento\Doctor\Models\Category;
+use Invento\Product\Models\ProductCategory;
 
 class CategoryRequestRequest extends FormRequest
 {
@@ -27,6 +27,8 @@ class CategoryRequestRequest extends FormRequest
     {
         return [
             'name' => ['required','string','min:4','max:50'],
+            'parent_id' => 'nullable','exists:product_categories,id',
+            'icon' =>  ['nullable','string','max:50'],
         ];
 
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Invento\Doctor\Models;
+namespace Invento\Product\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

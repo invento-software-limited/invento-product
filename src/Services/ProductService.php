@@ -1,13 +1,13 @@
 <?php
 
-namespace Invento\Doctor\Services;
+namespace Invento\Product\Services;
 
 use App\Services\CustomFieldService;
 use Illuminate\Support\Facades\DB;
 use App\Models\TagManager;
 use Brian2694\Toastr\Facades\Toastr;
-use Invento\Doctor\Models\Category;
-use Invento\Doctor\Models\Product;
+use Invento\Product\Models\ProductCategory;
+use Invento\Product\Models\Product;
 
 class ProductService
 {
@@ -28,7 +28,7 @@ class ProductService
 
             $validateData['status'] = $request->status == Product::STATUS['Published'];
 
-            $department = Category::where('id',$request->department)
+            $department = ProductCategory::where('id',$request->department)
                 ->active()
                 ->first();
 
@@ -71,7 +71,7 @@ class ProductService
 
             $validateData['status'] = $request->status == Product::STATUS['Published'];
 
-            $department = Category::where('id',$request->department)
+            $department = ProductCategory::where('id',$request->department)
                 ->active()
                 ->first();
 
