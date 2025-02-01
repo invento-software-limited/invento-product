@@ -25,6 +25,7 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $data['categories'] = ProductCategory::query()
+            ->with('parent:id,name')
             ->search(request()->input('query'))
             ->orderByDesc('id')
             ->paginate(10);
@@ -42,7 +43,7 @@ class ProductCategoryController extends Controller
     {
         $category = ProductCategory::create([
             'name' => $request->name,
-            'parent_id' => $request->parent_id,
+            'parent_id' => $request->parent_category,
             'icon' => $request->icon,
             'status' => $request->has('status')
         ]);
@@ -54,29 +55,30 @@ class ProductCategoryController extends Controller
         return redirect()->route('admin.products.categories.index');
     }
 
-    public function edit(ProductCategory $department)
+    public function edit(ProductCategory $category)
     {
-        $data['department'] = $department;
-        return view("doctor::departments.edit", $data);
+        $data['category'] = $category;
+        $data['categories'] = ProductCategory::active()->pluck('name', 'id')->toArray();
+        return view("product::categories.edit", $data);
     }
 
-    public function update(Request $request, ProductCategory $department)
+    public function update(Request $request, ProductCategory $category)
     {
         if ($request->has('status_switch')) {
-            $department->update([
-                'status' => !$department->status,
+            $category->update([
+                'status' => !$category->status,
             ]);
-            Toastr::success(__('doctor::departments.department_status_updated_successfully'), __('doctor::departments.department'));
+            Toastr::success(__('product::categories.category_status_updated_successfully'), __('product::categories.category'));
         } else {
-            $department->update([
+            $category->update([
                 'name' => $request->name,
-                'status' => $request->has('status'),
-                'meta_title' => $request->meta_title ?? $request->name,
-                'meta_description' => $request->meta_description ?? '',
+                'parent_id' => $request->parent_category,
+                'icon' => $request->icon,
+                'status' => $request->has('status')
             ]);
 
-            CustomFieldService::add($request->custom_fields, $department, \App\Models\CustomField::MODULES['Doctor Department']);
-            Toastr::success(__('doctor::departments.department_updated_successfully'), __('doctor::departments.department'));
+            CustomFieldService::add($request->custom_fields, $category, \App\Models\CustomField::MODULES['Product Category']);
+            Toastr::success(__('product::categories.category_updated_successfully'), __('product::categories.category'));
         }
 
 
@@ -86,7 +88,7 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $category)
     {
         $category->delete();
-        Toastr::success(__('blog::categories.blog_category_deleted'), __('blog::categories.blog_category'));
+        Toastr::success(__('product::categories.category_deleted'), __('blog::categories.category'));
 
         return back();
     }

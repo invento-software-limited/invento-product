@@ -59,8 +59,8 @@
                                        class="text-dark fw-bold text-hover-primary d-block fs-6">{{ $category->name }}</a>
                                 </td>
 
-                                <td>
-                                    <a class="text-dark fw-bold text-hover-primary d-block fs-6">{{ $category->name }}</a>
+                                <td class="text-center">
+                                    <a @if($category->parent) href="{{ route('admin.products.categories.edit',$category->parent->id) }}" @endif class="text-dark fw-bold text-hover-primary d-block fs-6">{{ $category->parent ? $category->parent->name : '' }}</a>
                                 </td>
 
                                 <td class="text-center d-flex justify-content-center align-items-center border-0">

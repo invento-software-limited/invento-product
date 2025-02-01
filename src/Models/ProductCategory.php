@@ -6,6 +6,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
@@ -69,8 +70,9 @@ class ProductCategory extends Model
         return $builder->where('status', true);
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
-        return
+        return $this->belongsTo(self::class, 'parent_id', 'id');
     }
+
 }

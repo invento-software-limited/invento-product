@@ -1,56 +1,78 @@
 <x-default-layout>
 
     @section('title')
-        {{ __('doctor::departments.edit_department') }}
+        {{ __('product::categories.edit_category') }}
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('doctors.departments.edit') }}
+        {{ Breadcrumbs::render('products.categories.edit') }}
     @endsection
 
-    {!! Form::open(array('route' =>['admin.doctors.departments.update',$department->id], 'method'=>'patch','class'=>'form d-flex flex-column flex-lg-row' ,'id' => 'kt_doctor_department_form')) !!}
+    {!! Form::open(array('route' =>['admin.products.categories.update',$category->id], 'method'=>'patch','class'=>'form d-flex flex-column flex-lg-row' ,'id' => 'kt_product_category_form')) !!}
     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 me-lg-10">
         <div class="card card-flush py-4">
             <div class="card-header">
                 <div class="card-title">
-                    <h2>{{ __('doctor::departments.department_details') }}</h2>
+                    <h2>{{ __('product::categories.category_details') }}</h2>
                 </div>
             </div>
 
             <div class="card-body pt-0">
 
-                <div class="mb-10 fv-row">
-                    <label class="required form-label">{{ __('doctor::departments.name') }}</label>
+                <div class="mb-5 fv-row">
+                    <label class="required form-label">{{ __('product::categories.name') }}</label>
                     <input type="text" name="name" id="name"
-                           class="form-control mb-2 meta_title meta_url @error('name') is-invalid @enderror"
-                           value="{{ old('name',$department->name) }}"/>
+                           class="form-control mb-2 meta_title meta_url @error('name') is-invalid @enderror" value="{{ $category->name }}"/>
 
                     @error('name')
                     <div id="name-error" class="invalid-feedback">{{ $message }}</div>
                     @enderror
 
-                    <div class="text-muted fs-7">{{ __('doctor::departments.name_text') }}</div>
+                    <div class="text-muted fs-7">{{ __('product::categories.name_text') }}</div>
+
+                </div>
+
+                <div class="mb-5 fv-row">
+                    <label class="form-label">{{ __('product::categories.parent_category') }}</label>
+
+                    <select class="form-select mb-2" name="parent_category" id="parent_category" data-control="select2"
+                            data-hide-search="false" data-placeholder="{{  __('product::categories.no_parent_category') }}">
+                        <option></option>
+                        @foreach($categories as $key => $val)
+                            <option {{ $category->parent_id == $key ? 'selected' : '' }} value="{{ $key }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+
+                    <div class="text-muted fs-7">{{ __('product::categories.parent_category_text') }}</div>
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">{{ __('product::categories.icon') }}</label>
+                    <input type="text" name="icon" id="icon"
+                           class="form-control mb-2 @error('icon') is-invalid @enderror" value="{{ $category->icon }}"/>
+
+                    @error('icon')
+                    <div id="icon-error" class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+
+                    <div class="text-muted fs-7">{{ __('product::categories.icon_text') }}</div>
 
                 </div>
 
 
                 <div class="mb-10 fv-row">
                     <label class="form-check form-switch form-check-custom form-check-solid">
-                        <input class="form-check-input" name="status"
-                               type="checkbox" {{ $department->status ? 'checked' : '' }} />
-                        <span class="form-check-label fw-semibold text-muted">{{ __('doctor::departments.status') }}</span>
+                        <input class="form-check-input" name="status" type="checkbox" {{ $category->status ? 'checked' : '' }}/>
+                        <span class="form-check-label fw-semibold text-muted">{{ __('product::categories.status') }}</span>
                     </label>
                 </div>
 
-
-                @include('backend.partials.seo-field',['model' => 'Invento-Doctor-Models-Department','column' => 'slug','seo' => $department])
-
-                @custom_fields(\App\Models\CustomField::MODULES['Doctor Department'], $department->id)
+                @custom_fields(\App\Models\CustomField::MODULES['Product Category'], $category->id)
 
                 <div class="mt-10 fv-row">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary"><span
-                                    class="indicator-label">{{ __('doctor::departments.update') }}</span>
+                                    class="indicator-label">{{__('product::categories.update')}}</span>
                         </button>
                     </div>
                 </div>
@@ -67,7 +89,7 @@
         <!-- Laravel Javascript Validation -->
         <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
-        {!! JsValidator::formRequest('Invento\Doctor\Requests\CategoryRequestRequest', '#kt_doctor_department_form') !!}
+        {!! JsValidator::formRequest('Invento\Product\Requests\CategoryRequestRequest', '#kt_product_category_form') !!}
 
     @endpush
 

@@ -3,6 +3,7 @@
 return [
     'category' => 'Category',
     'categories' => 'Categories',
+    'parent_name' => 'Parent Category',
     'category_list' => 'Category List',
     'add_category' => 'Add Category',
     'edit_category' => 'Edit Category',

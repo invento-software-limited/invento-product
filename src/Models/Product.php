@@ -12,15 +12,11 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'doctors';
+    protected $table = 'products';
     protected $guarded = [];
     public const Image = 'image';
 
-    public const GENDER = [
-        'Male' => 'Male',
-        'Female' => 'Female',
-        'Other' => 'Other'
-    ];
+
     public const STATUS = [
         'Published' => 'Published',
         'Draft' => 'Draft'
@@ -85,10 +81,7 @@ class Product extends Model
     public function scopeSearch(Builder $builder, $searchItem): Builder
     {
         return $builder->where('id', "{$searchItem}%")
-            ->orWhere('first_name', 'LIKE', "{$searchItem}%")
-            ->orWhere('last_name', 'LIKE', "{$searchItem}%")
-            ->orWhere('phone', 'LIKE', "{$searchItem}%")
-            ->orWhere('email', 'LIKE', "{$searchItem}%")
-            ->orWhere('id_number', 'LIKE', "{$searchItem}%");
+            ->orWhere('id', 'LIKE', "{$searchItem}")
+            ->orWhere('title', 'LIKE', "{$searchItem}%");
     }
 }

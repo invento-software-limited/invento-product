@@ -6,14 +6,14 @@
     @endpush
 
     @section('title')
-        {{ __('doctor::doctors.add_doctor') }}
+        {{ __('product::products.add_doctor') }}
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('doctors.create') }}
+        {{ Breadcrumbs::render('products.create') }}
     @endsection
 
-    {!! Form::open(array('route' =>'admin.doctors.store', 'method'=>'post','class'=>'form' ,'id' => 'kt_doctor_form')) !!}
+    {!! Form::open(array('route' =>'admin.products.store', 'method'=>'post','class'=>'form' ,'id' => 'kt_product_form')) !!}
 
 
     <div class="row">
@@ -21,26 +21,17 @@
             <div class="card card-flush py-4">
                 <div class="card-header">
                     <div class="card-title">
-                        <h2>{{ __('doctor::doctors.doctor_details') }}</h2>
+                        <h2>{{ __('product::products.product_details') }}</h2>
                     </div>
                 </div>
 
                 <div class="card-body pt-0">
 
-                    <div class="row mb-5">
-                        <div class="col-md-6 fv-row">
-                            <label class="required form-label">{{ __('doctor::doctors.first_name') }}</label>
-                            <input type="text" name="first_name" id="first_name" class="form-control mb-2 meta_title"
-                                   value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.first_name_text') }}</div>
-                        </div>
-
-
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.last_name') }}</label>
-                            <input type="text" name="last_name" id="last_name" class="form-control mb-2" value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.last_name_text') }}</div>
-                        </div>
+                    <div class="mb-5 fv-row">
+                        <label class="required form-label">{{ __('product::products.title') }}</label>
+                        <input type="text" name="first_name" id="first_name" class="form-control mb-2 meta_title"
+                               value=""/>
+                        <div class="text-muted fs-7">{{ __('product::products.title_text') }}</div>
                     </div>
 
                     <div class="row mb-5">

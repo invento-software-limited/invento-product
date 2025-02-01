@@ -21,27 +21,27 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['permission:view doctors'])->only(['index']);
-        $this->middleware(['permission:add and update doctor'])->only(['create','store','edit','update']);
-        $this->middleware(['permission:delete doctor'])->only(['destroy']);
+        $this->middleware(['permission:view products'])->only(['index']);
+        $this->middleware(['permission:add and update product'])->only(['create','store','edit','update']);
+        $this->middleware(['permission:delete product'])->only(['destroy']);
     }
     
     public function index()
     {
-        $data['doctors'] = Product::query()
+        $data['products'] = Product::query()
             ->search(request()->input('query'))
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        return view("doctor::doctors.index",$data);
+        return view("product::products.index",$data);
     }
 
     public function create()
     {
-        $data['departments'] = ProductCategory::active()->pluck('name','id')->toArray();
-        $data['doctor'] = new Product();
+        $data['categories'] = ProductCategory::active()->pluck('name','id')->toArray();
+        $data['product'] = new Product();
 
-        return view('doctor::doctors.create',$data);
+        return view('product::products.create',$data);
     }
 
     public function store(ProductRequest $request)
@@ -49,7 +49,7 @@ class ProductController extends Controller
 
         $response = ProductService::store($request);
 
-        return $response ?  redirect()->route('admin.doctors.index') : back()->withInput();
+        return $response ?  redirect()->route('admin.products.index') : back()->withInput();
     }
 
     public function show($id)
