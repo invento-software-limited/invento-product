@@ -2,94 +2,102 @@
 
 namespace Invento\Product\Services;
 
-use App\Services\CustomFieldService;
-use Illuminate\Support\Facades\DB;
-use App\Models\TagManager;
-use Brian2694\Toastr\Facades\Toastr;
-use Invento\Product\Models\ProductCategory;
 use Invento\Product\Models\Product;
+use Illuminate\Support\Str;
 
 class ProductService
 {
     public static function store($request)
     {
-        DB::beginTransaction();
-
         try {
-            $validateData = $request->only(['first_name', 'last_name', 'designation', 'qualification','email','phone','gender','dob','description','id_number','image','meta_title', 'meta_description', 'display_order']);
-
-            if(!$validateData['meta_title']){
-                $validateData['meta_title'] = $request->first_name.' '.$request->last_name;
+            // Begin transaction
+            \DB::beginTransaction();
+            
+            // Prepare product data
+            $productData = [
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'sku' => $request->sku,
+                'description' => $request->description,
+                'short_description' => $request->short_description,
+                'cost_price' => $request->cost_price,
+                'sale_price' => $request->sale_price,
+                'discount_price' => $request->discount_price,
+                'thumbnail' => $request->thumbnail
+            ];
+            
+            // Create new product
+            $product = Product::create($productData);
+            
+            // Attach categories if any
+            if ($request->has('categories')) {
+                $product->categories()->sync($request->categories);
             }
-
-            if(!$validateData['meta_description']){
-                $validateData['meta_description'] = $request->description;
-            }
-
-            $validateData['status'] = $request->status == Product::STATUS['Published'];
-
-            $department = ProductCategory::where('id',$request->department)
-                ->active()
-                ->first();
-
-            $validateData['doctor_department_id'] = $department->id;
-            $validateData['department_name'] = $department->name;
-            try {
-                $doctor = Product::create($validateData);
-            }catch (\Exception $exception){
-                dd($exception->getMessage());
-            }
-
-            CustomFieldService::add($request->custom_fields,$doctor,\App\Models\CustomField::MODULES['Doctor']);
-
-            DB::commit();
-            Toastr::success(__('doctor::doctors.doctor_added_successfully'),__('doctor::doctors.doctor'));
-            return true;
-
-        } catch (\Exception $exception) {
-            Toastr::success(__('doctor::doctors.something_wrong'),__('doctor::doctors.doctor'));
-            DB::rollBack();
-            return false;
+            
+            // Commit transaction
+            \DB::commit();
+            
+            return [
+                'status' => true,
+                'message' => __('product::products.created_successfully'),
+                'data' => $product
+            ];
+            
+        } catch (\Exception $e) {
+            // Rollback transaction
+            \DB::rollBack();
+            return [
+                'status' => false,
+                'message' => $e->getMessage(),
+                'data' => null
+            ];
         }
     }
-
-
-    public static function update($request, $doctor)
+    
+    public static function update($request, $product)
     {
-        DB::beginTransaction();
-
         try {
-            $validateData = $request->only(['first_name', 'last_name', 'designation', 'qualification','email','phone','gender','dob','id_number','description','image','meta_title', 'meta_description', 'display_order']);
-
-            if(!$validateData['meta_title']){
-                $validateData['meta_title'] = $request->title;
+            // Begin transaction
+            \DB::beginTransaction();
+            
+            // Prepare product data
+            $productData = [
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'sku' => $request->sku,
+                'description' => $request->description,
+                'short_description' => $request->short_description,
+                'cost_price' => $request->cost_price,
+                'sale_price' => $request->sale_price,
+                'discount_price' => $request->discount_price,
+                'thumbnail' => $request->thumbnail
+            ];
+            
+            // Update existing product
+            $product->update($productData);
+            
+            // Sync categories if any
+            if ($request->has('categories')) {
+                $product->categories()->sync($request->categories);
             }
-
-            if(!$validateData['meta_description']){
-                $validateData['meta_description'] = $request->short_description;
-            }
-
-            $validateData['status'] = $request->status == Product::STATUS['Published'];
-
-            $department = ProductCategory::where('id',$request->department)
-                ->active()
-                ->first();
-
-            $validateData['doctor_department_id'] = $department->id;
-            $validateData['department_name'] = $department->name;
-
-            $doctor->update($validateData);
-
-            CustomFieldService::add($request->custom_fields,$doctor,\App\Models\CustomField::MODULES['Doctor']);
-
-            Toastr::success(__('doctor::doctors.doctor_updated_successfully'),__('doctor::doctors.doctor'));
-            DB::commit();
-            return true;
-
-        } catch (\Exception $exception) {
-            Toastr::success(__('doctor::doctors.something_wrong'),__('doctor::doctors.Doctor'));
-            DB::rollBack();
-            return false;
+            
+            // Commit transaction
+            \DB::commit();
+            
+            return [
+                'status' => true,
+                'message' => __('product::products.updated_successfully'),
+                'data' => $product
+            ];
+            
+        } catch (\Exception $e) {
+            // Rollback transaction
+            \DB::rollBack();
+            return [
+                'status' => false,
+                'message' => $e->getMessage(),
+                'data' => null
+            ];
         }
     }
 }

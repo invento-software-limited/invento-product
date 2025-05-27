@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductCategory extends Model
 {
@@ -75,4 +76,8 @@ class ProductCategory extends Model
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_category_product', 'product_category_id', 'product_id');
+    }
 }

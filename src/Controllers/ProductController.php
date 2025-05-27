@@ -15,6 +15,7 @@ use Invento\Product\Services\ProductService;
 use Spatie\Tags\Tag;
 use App\Models\TagManager;
 use Brian2694\Toastr\Facades\Toastr;
+use Invento\Product\Resource\ProductResource;
 
 class ProductController extends Controller
 {
@@ -57,45 +58,44 @@ class ProductController extends Controller
         //
     }
 
-    public function edit(Product $doctor)
-    {
-        $data['departments'] = ProductCategory::active()->pluck('name','id')->toArray();
-        $data['doctor'] = $doctor;
+    public function edit(Product $product) {
+        $data['categories'] = ProductCategory::active()->pluck('name','id')->toArray();
+        $data['product'] = $product;
 
-        return view('doctor::doctors.edit',$data);
+        return view('product::products.edit', $data);
     }
 
+    public function update(Request $request, Product $product) {
 
-
-    public function update(Request $request, Product $doctor)
-    {
-        if($request->has('status_switch')){
-            $doctor->update([
-                'status' => !$doctor->status,
+        if ($request->has('switch_status')) {
+            $product->update([
+                'status' => !$product->status,
             ]);
 
-            Toastr::success(__('blog::blogs.blog_updated_successfully'),__('blog::blogs.blog'));
+            Toastr::success(__('product::products.product_updated_successfully'), __('product::products.product'));
 
             return back();
-        }else{
-
-            $response = ProductService::update($request,$doctor);
-            return $response ?  back() : back()->withInput();
+        } else {
+            $response = ProductService::update($request, $product);
+            return $response ? back() : back()->withInput();
         }
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Product $doctor
-     * @return Response
-     */
-    public function destroy(Product $doctor)
-    {
-        $doctor->delete();
-        Toastr::success(__('doctor::doctors.doctor_deleted_successfully'),__('doctor::doctors.doctor'));
+    public function destroy(Product $product) {
+        $product->delete();
+        Toastr::success(__('product::products.product_deleted_successfully'), __('product::products.product'));
         return back();
     }
 
+    public function apiIndex()
+    {
+        $products = Product::with('categories')->paginate(10);
+        return ProductResource::collection($products);
+    }
+
+    public function apiShow($id)
+    {
+        $product = Product::with('categories')->findOrFail($id);
+        return new ProductResource($product);
+    }
 }

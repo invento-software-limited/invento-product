@@ -6,7 +6,7 @@
     @endpush
 
     @section('title')
-        {{ __('product::products.add_doctor') }}
+        {{ __('product::products.add_product') }}
     @endsection
 
     @section('breadcrumbs')
@@ -14,7 +14,6 @@
     @endsection
 
     {!! Form::open(array('route' =>'admin.products.store', 'method'=>'post','class'=>'form' ,'id' => 'kt_product_form')) !!}
-
 
     <div class="row">
         <div class="col-lg-9">
@@ -26,177 +25,125 @@
                 </div>
 
                 <div class="card-body pt-0">
-
+                    <!-- Product Title -->
                     <div class="mb-5 fv-row">
                         <label class="required form-label">{{ __('product::products.title') }}</label>
-                        <input type="text" name="first_name" id="first_name" class="form-control mb-2 meta_title"
-                               value=""/>
+                        <input type="text" name="title" id="title" class="form-control mb-2 meta_title" value=""/>
                         <div class="text-muted fs-7">{{ __('product::products.title_text') }}</div>
                     </div>
 
-                    <div class="row mb-5">
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.designation') }}</label>
-                            <input type="text" name="designation" id="designation" class="form-control mb-2" value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.designation_text') }}</div>
-                        </div>
-
-
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.qualification') }}</label>
-                            <input type="text" name="qualification" id="qualification" class="form-control mb-2"
-                                   value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.qualification_text') }}</div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-5">
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.email') }}</label>
-                            <input type="email" name="email" id="email" class="form-control mb-2" value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.email_text') }}</div>
-                        </div>
-
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.phone') }}</label>
-                            <input type="text" name="phone" id="phone" class="form-control mb-2" value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.phone_text') }}</div>
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-5">
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.gender') }}</label>
-
-                            <select class="form-select mb-2" name="gender" id="gender" data-control="select2"
-                                    data-hide-search="true"
-                                    data-placeholder="{{  __('doctor::doctors.select_gender') }}">
-                                <option></option>
-                                @foreach(\Invento\Doctor\Models\Product::GENDER as $key => $val)
-                                    <option value="{{ $key }}">{{ $val }}</option>
-                                @endforeach
-                            </select>
-
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.gender_text') }}</div>
-                        </div>
-
-                        <div class="col-md-6 fv-row">
-                            <label class="form-label">{{ __('doctor::doctors.dob') }}</label>
-                            <input type="text" name="dob" id="dob" class="form-control mb-2" value=""/>
-                            <div class="text-muted fs-7">{{ __('doctor::doctors.dob_text') }}</div>
-                        </div>
-                    </div>
-
-
+                    <!-- SKU -->
                     <div class="mb-5 fv-row">
-                        <label class="form-label">{{ __('doctor::doctors.description') }}</label>
-                        <div id="quill-editor" class="min-h-200px mb-2" style="height: 300px;"></div>
-                        <textarea rows="3" class="mb-3 d-none" name="description" id="quill-editor-area">
-
-                    </textarea>
+                        <label class="form-label">{{ __('product::products.sku') }}</label>
+                        <input type="text" name="sku" id="sku" class="form-control mb-2" value=""/>
+                        <div class="text-muted fs-7">{{ __('product::products.sku_text') }}</div>
                     </div>
 
+                    <!-- Pricing -->
+                    <div class="row mb-5">
+                        <div class="col-md-4 fv-row">
+                            <label class="form-label">{{ __('product::products.cost_price') }}</label>
+                            <input type="number" step="0.01" name="cost_price" id="cost_price" class="form-control mb-2" value=""/>
+                            <div class="text-muted fs-7">{{ __('product::products.cost_price_text') }}</div>
+                        </div>
 
-                    @include('backend.partials.seo-field',['model' => 'Invento-Doctor-Models-Doctor','column' => 'slug','seo' => $doctor])
+                        <div class="col-md-4 fv-row">
+                            <label class="form-label">{{ __('product::products.sale_price') }}</label>
+                            <input type="number" step="0.01" name="sale_price" id="sale_price" class="form-control mb-2" value=""/>
+                            <div class="text-muted fs-7">{{ __('product::products.sale_price_text') }}</div>
+                        </div>
 
-                    @custom_fields(\App\Models\CustomField::MODULES['Doctor'], null)
+                        <div class="col-md-4 fv-row">
+                            <label class="form-label">{{ __('product::products.discount_price') }}</label>
+                            <input type="number" step="0.01" name="discount_price" id="discount_price" class="form-control mb-2" value=""/>
+                            <div class="text-muted fs-7">{{ __('product::products.discount_price_text') }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Short Description -->
+                    <div class="mb-5 fv-row">
+                        <label class="form-label">{{ __('product::products.short_description') }}</label>
+                        <textarea rows="3" name="short_description" id="short_description" class="form-control mb-2"></textarea>
+                        <div class="text-muted fs-7">{{ __('product::products.short_description_text') }}</div>
+                    </div>
+
+                    <!-- Full Description -->
+                    <div class="mb-5 fv-row">
+                        <label class="form-label">{{ __('product::products.description') }}</label>
+                        <div id="quill-editor" class="min-h-200px mb-2" style="height: 300px;"></div>
+                        <textarea rows="3" class="mb-3 d-none" name="description" id="quill-editor-area"></textarea>
+                    </div>
+
+                    <!-- SEO Fields -->
+                    @include('backend.partials.seo-field',['model' => 'App-Models-Product','column' => 'slug','seo' => null])
+
+                    <!-- Custom Fields -->
+                    @custom_fields(\App\Models\CustomField::MODULES['Product'], null)
 
                     <div class="mt-10 fv-row">
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary"><span
-                                        class="indicator-label">{{ __('doctor::doctors.submit') }}</span>
+                        <div class="d-flex justify-content-start">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="indicator-label">{{ __('product::products.submit') }}</span>
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 sidebar">
-            <div class="card card-flush">
+            <!-- Product Categories -->
+            <div class="card card-flush mb-4">
                 <div class="card-header">
                     <div class="card-title">
-                        <h4>{{ __('doctor::doctors.upload_image') }} <span
-                                    class="fs-1rem">{{ __('doctor::doctors.image_dimension') }}</span></h4>
+                        <h4>{{ __('product::products.categories') }}</h4>
+                    </div>
+                </div>
+
+                <div class="card-body pt-0">
+                    <select class="form-select mb-2" name="categories[]" id="categories" data-control="select2" 
+                            multiple data-placeholder="{{ __('product::products.select_categories') }}">
+                        @foreach($categories as $key => $category)
+                            <option value="{{ $key }}">{{ $category }}</option>
+                        @endforeach
+                    </select>
+                    <div class="text-muted fs-7">{{ __('product::products.categories_text') }}</div>
+                </div>
+            </div>
+
+            <!-- Product Thumbnail -->
+            <div class="card card-flush mb-4">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>{{ __('product::products.thumbnail') }}</h4>
                     </div>
                 </div>
 
                 <div class="card-body text-center pt-0">
-                    @include('backend.pages.filemanager.input',['image' => '','name' => 'image'])
+                    @include('backend.pages.filemanager.input',['image' => '','name' => 'thumbnail'])
                 </div>
             </div>
 
+            <!-- Product Status -->
             <div class="card card-flush">
                 <div class="card-header">
                     <div class="card-title">
-                        <h4>{{ __('doctor::doctors.department') }}</h4>
-                    </div>
-
-                </div>
-
-                <div class="card-body pt-0">
-                    <select class="form-select mb-2" name="department" id="department" data-control="select2"
-                            data-hide-search="false" data-placeholder="{{  __('doctor::doctors.department_text') }}">
-                        <option></option>
-                        @foreach($departments as $key => $val)
-                            <option value="{{ $key }}">{{ $val }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="card card-flush">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>{{ __('doctor::doctors.id_number') }}</h4>
-                    </div>
-
-                </div>
-
-                <div class="card-body pt-0">
-                    <input type="text" name="id_number" id="id_number"
-                           placeholder="{{ __('doctor::doctors.id_number_text') }}" class="form-control" value=""/>
-                </div>
-            </div>
-
-            <div class="card card-flush">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>{{ __('doctor::doctors.display_order') }}</h4>
-                    </div>
-
-                </div>
-
-                <div class="card-body pt-0">
-                    <input type="number" name="display_order" id="display_order"
-                           placeholder="{{ __('doctor::doctors.display_order_text') }}" class="form-control" value=""/>
-                </div>
-            </div>
-
-            <div class="card card-flush">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>{{ __('doctor::doctors.status') }}</h4>
+                        <h4>{{ __('product::products.status') }}</h4>
                     </div>
                 </div>
 
                 <div class="card-body pt-0">
-                    <select name="status" id=status class="form-select mb-2" data-control="select2"
-                            data-hide-search="true"
-                            data-placeholder="{{ __('doctor::doctor.status_text') }}">
-                        @foreach(\Invento\Doctor\Models\Product::STATUS as $value)
-                            <option value="{{ $value }}">{{ $value }}</option>
-                        @endforeach
+                    <select name="status" id="status" class="form-select mb-2" data-control="select2"
+                            data-hide-search="true" data-placeholder="{{ __('product::products.status_text') }}">
+                        <option value="1">{{ __('product::products.active') }}</option>
+                        <option value="0">{{ __('product::products.inactive') }}</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
 
-
     {!! Form::close() !!}
-
 
     @push('scripts')
         <script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
@@ -204,8 +151,7 @@
 
         <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
-        {!! JsValidator::formRequest('Invento\Doctor\Requests\ProductRequest', '#kt_doctor_form') !!}
-
+        {!! JsValidator::formRequest('Invento\Product\Requests\ProductRequest', '#kt_product_form') !!}
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -213,29 +159,26 @@
                     var editor = new Quill('#quill-editor', {
                         modules: {
                             toolbar: [
-                                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                                ['bold', 'italic', 'underline', 'strike'],
                                 ['blockquote', 'code-block'],
                                 ['link', 'image', 'video', 'formula'],
-
-                                [{'header': 1}, {'header': 2}],               // custom button values
+                                [{'header': 1}, {'header': 2}],
                                 [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
-                                [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
-                                [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-                                [{'direction': 'rtl'}],                         // text direction
-
-                                [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+                                [{'script': 'sub'}, {'script': 'super'}],
+                                [{'indent': '-1'}, {'indent': '+1'}],
+                                [{'direction': 'rtl'}],
+                                [{'size': ['small', false, 'large', 'huge']}],
                                 [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-                                [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+                                [{'color': []}, {'background': []}],
                                 [{'font': []}],
                                 [{'align': []}],
-
                                 ['clean']
                             ]
                         },
-                        placeholder: 'Type your text here...',
-                        theme: 'snow' // or 'bubble'
+                        placeholder: 'Type your product description here...',
+                        theme: 'snow'
                     });
+                    
                     var quillEditor = document.getElementById('quill-editor-area');
                     editor.on('text-change', function () {
                         quillEditor.value = editor.root.innerHTML;

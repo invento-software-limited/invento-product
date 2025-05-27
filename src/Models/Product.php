@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -48,19 +49,13 @@ class Product extends Model
         });
     }
 
-    public function getNameAttribute(): string
+    public function getThumbnailAttribute(): string
     {
-        return $this->attributes['first_name'].' '.$this->attributes['last_name'];
+        return $this->attributes['thumbnail'] ? url('storage/' . $this->attributes['thumbnail']) : url('storage/default.jpg');
     }
 
-
-    public function getImageAttribute(): string
-    {
-        return $this->attributes['image'] ? url('storage/' . $this->attributes['image']) : url('storage/default.jpg');
-    }
-
-    public function getHasImageAttribute(){
-        return $this->attributes['image'] ? $this->attributes['image'] : false;
+    public function getHasThumbnailAttribute(){
+        return $this->attributes['thumbnail'] ? $this->attributes['thumbnail'] : false;
     }
 
 
@@ -83,5 +78,10 @@ class Product extends Model
         return $builder->where('id', "{$searchItem}%")
             ->orWhere('id', 'LIKE', "{$searchItem}")
             ->orWhere('title', 'LIKE', "{$searchItem}%");
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductCategory::class, 'product_category_product', 'product_id', 'product_category_id');
     }
 }

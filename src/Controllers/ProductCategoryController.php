@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Invento\Product\Models\ProductCategory;
 use Invento\Product\Requests\CategoryRequestRequest;
 use App\Services\CustomFieldService;
+use Invento\Product\Resource\ProductCategoryResource;
 
 class ProductCategoryController extends Controller
 {
@@ -91,5 +92,11 @@ class ProductCategoryController extends Controller
         Toastr::success(__('product::categories.category_deleted'), __('blog::categories.category'));
 
         return back();
+    }
+
+    public function apiIndex()
+    {
+        $categories = ProductCategory::paginate(10);
+        return ProductCategoryResource::collection($categories);
     }
 }

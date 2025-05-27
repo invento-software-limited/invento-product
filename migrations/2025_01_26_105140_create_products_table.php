@@ -41,6 +41,7 @@ return new class extends Migration
             $table->decimal('discount_price', 23, 2)->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('other_images')->nullable();
+            $table->boolean('status')->default(true);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
             $table->softDeletes();

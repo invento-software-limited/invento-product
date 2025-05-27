@@ -1,5 +1,4 @@
 <x-default-layout>
-
     @section('title')
         {{ __('product::products.product_list') }}
     @endsection
@@ -35,19 +34,15 @@
                                            data-kt-check-target=".widget-9-check">
                                 </div>
                             </th>
-                            <th>{{ __('product::products.name') }}</th>
-                            <th class="text-center">{{ __('product::products.designation') }}</th>
-                            <th class="text-center">{{ __('product::products.department') }}</th>
+                            <th class="w-80px">{{ __('product::products.thumbnail') }}</th>
+                            <th>{{ __('product::products.title') }}</th>
+                            <th class="text-center">{{ __('product::products.sku') }}</th>
                             <th class="text-center">{{ __('product::products.status') }}</th>
-                            <th class="text-center">{{ __('product::products.display_order') }}</th>
                             <th class="text-center">{{ __('product::products.created_at') }}</th>
                             <th class="pr-0 text-end w-10">{{ __('product::products.action') }}</th>
                         </tr>
                         </thead>
-                        <!--end::Table head-->
-                        <!--begin::Table body-->
                         <tbody>
-
                         @foreach($products as $product)
                             <tr>
                                 <td>
@@ -57,54 +52,35 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center">
-
-                                        <div class="symbol symbol-45px me-5">
-                                            <img src="{{ $product->image }}" alt="image">
-                                        </div>
-
-                                        <div class="d-flex justify-content-start flex-column">
-                                            <a href="{{ route('admin.products.edit',$product->id) }}"
-                                               class="text-dark text-hover-info fs-6">
-                                                {{ $product->name }}
-                                                @if($product->id_number)
-                                                    <br>
-                                                    <span class="fs-10px">{{ $product->id_number }}</span>
-                                                @endif
-                                            </a>
-                                        </div>
+                                    <div class="symbol symbol-50px">
+                                        <img src="{{ $product->thumbnail_url ?? asset('assets/media/svg/files/blank-image.svg') }}" alt="{{ $product->title }}" class="w-100">
                                     </div>
                                 </td>
 
-                                <td class="text-center">
-                                    <a class="text-dark text-hover-info d-block fs-6">{{ $product->designation }}</a>
+                                <td>
+                                    <a href="{{ route('admin.products.edit',$product->id) }}"
+                                       class="text-dark fw-bold text-hover-primary d-block fs-6">{{ $product->title }}</a>
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="{{ route('admin.products.departments.edit',$product->product_department_id) }}"
-                                       class="text-dark text-hover-info d-block fs-6">{{ $product->department_name }}</a>
+                                    <span class="text-dark fw-bold d-block fs-6">{{ $product->sku }}</span>
                                 </td>
 
 
                                 <td class="text-center d-flex justify-content-center align-items-center border-0">
                                     <label class="form-check form-switch form-check-custom form-check-solid mt-3">
-                                        <input class="form-check-input statusCheckbox" name="status"
-                                               data-id="{{ $product->id }}"
-                                               onclick="event.preventDefault(); document.getElementById('statusForm-{{$product->id}}').submit();"
+                                        <input class="form-check-input statusCheckbox" name="status" data-id="{{ $product->id }}" onclick="event.preventDefault(); document.getElementById('statusForm-{{$product->id}}').submit();"
                                                type="checkbox" {{ $product->status ? 'checked' : '' }} />
                                     </label>
 
                                     {!! Form::open(array('route' =>['admin.products.update',$product->id], 'method'=>'patch' ,'id' => 'statusForm-'.$product->id)) !!}
-                                    <input type="hidden" name="status_switch" value="{{ $product->status }}">
+                                    <input type="hidden" name="switch_status" value="{{ $product->status }}">
                                     {!! Form::close() !!}
+
                                 </td>
 
                                 <td class="text-center">
-                                    <a class="text-dark text-hover-info d-block fs-6">{{ $product->display_order }}</a>
-                                </td>
-
-                                <td class="text-center">
-                                    <a class="text-dark text-hover-info d-block fs-6">{{ date('M d, Y',strtotime($product->created_at)) }}</a>
+                                    {{ date('M d, Y',strtotime($product->created_at)) }}
                                 </td>
 
                                 <td class="text-end">
@@ -127,49 +103,131 @@
                                             <a href="#" class="menu-link px-3 delete_table_row"
                                                data-row="{{ $product->id }}">{{  __('product::products.delete')  }}</a>
                                         </div>
-
-                                        <form id="delete_form_{{ $product->id }}" method="post"
-                                              action="{{ route('admin.products.destroy',$product->id) }}">
-                                            @csrf
-                                            @method('delete')
-                                        </form>
-
                                     </div>
-
                                 </td>
                             </tr>
                         @endforeach
-
                         </tbody>
                         <!--end::Table body-->
                     </table>
                     <!--end::Table-->
                 </div>
+                <!--begin::Pagination-->
+                <div class="d-flex flex-stack flex-wrap pt-10">
+                    <div class="fs-6 fw-semibold text-gray-700">
+                        {{ __('product::products.showing_results', ['from' => $products->firstItem() ?: 0, 'to' => $products->lastItem() ?: 0, 'total' => $products->total()]) }}
+                    </div>
+                    <ul class="pagination">
+                        {{-- Previous Page Link --}}
+                        @if ($products->onFirstPage())
+                            <li class="page-item previous disabled">
+                                <span class="page-link"><i class="previous"></i></span>
+                            </li>
+                        @else
+                            <li class="page-item previous">
+                                <a class="page-link" href="{{ $products->appends(request()->except('page'))->previousPageUrl() }}">
+                                    <i class="previous"></i>
+                                </a>
+                            </li>
+                        @endif
 
+                        {{-- Pagination Elements --}}
+                        @foreach ($products->onEachSide(1)->links()->elements as $element)
+                            {{-- Array Of Links --}}
+                            @if (is_array($element))
+                                @foreach ($element as $page => $url)
+                                    @if ($page == $products->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $products->appends(request()->except('page'))->url($page) }}">{{ $page }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($products->hasMorePages())
+                            <li class="page-item next">
+                                <a class="page-link" href="{{ $products->appends(request()->except('page'))->nextPageUrl() }}">
+                                    <i class="next"></i>
+                                </a>
+                            </li>
+                        @else
+                            <li class="page-item next disabled">
+                                <span class="page-link"><i class="next"></i></span>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+                <!--end::Pagination-->
             </div>
         @else
-            <div class="card-body p-0">
-                <!--begin::Wrapper-->
-                <div class="card-px text-center">
-                    <!--begin::Title-->
-                    <h2 class="fs-2x fw-bold mb-10">{{ __('product::products.product_list_is_empty') }}</h2>
-                    <!--end::Title-->
-
-                    <!--begin::Action-->
-                    <a href="{{ route('admin.products.create') }}"
-                       class="btn btn-primary">{{ __('product::products.add_product') }}</a>
-                    <!--end::Action-->
+            <div class="card-body">
+                <div class="card-px text-center py-20 my-10">
+                    <h2 class="fs-2x fw-bold mb-10">{{ __('product::products.welcome_products') }}</h2>
+                    <p class="text-gray-400 fs-4 fw-semibold mb-10">{{ __('product::products.no_products') }}</p>
+                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+                        <i class="ki-duotone ki-plus fs-2"></i>{{ __('product::products.add_product') }}</a>
                 </div>
-                <!--end::Wrapper-->
-                <!--begin::Illustration-->
-                <div class="text-center px-4">
-                    <img class="mw-100 mh-300px" alt="" src="{{ asset('vendor/product/media/empty_product.png') }}">
-                </div>
-                <!--end::Illustration-->
             </div>
         @endif
         <!--end::Card body-->
     </div>
 
+    @push('scripts')
+        <script>
+            $(document).ready(function () {
+                $('.delete_table_row').click(function(e) {
+                    e.preventDefault();
+                    var id = $(this).attr('data-row');
 
+                    Swal.fire({
+                        text: "{{ __('product::products.delete_confirm') }}",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "{{ __('product::products.delete_yes') }}",
+                        cancelButtonText: "{{ __('product::products.delete_no') }}",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-danger",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    }).then(function (result) {
+                        if (result.value) {
+                            Swal.fire({
+                                text: "{{ __('product::products.deleted') }}",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "{{ __('product::products.ok_got_it') }}",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            }).then(function () {
+                                // delete row
+                                var url = '{{ route("admin.products.destroy", ":id") }}';
+                                url = url.replace(':id', id);
+
+                                $.ajax({
+                                    type: "DELETE",
+                                    url: url,
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    success: function (response) {
+                                        if (response.status) {
+                                            location.reload();
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-default-layout>
