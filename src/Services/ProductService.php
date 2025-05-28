@@ -23,8 +23,18 @@ class ProductService
                 'cost_price' => $request->cost_price,
                 'sale_price' => $request->sale_price,
                 'discount_price' => $request->discount_price,
-                'thumbnail' => $request->thumbnail
+                'thumbnail' => $request->thumbnail,
+                'meta_title' => $request->meta_title,
+                'meta_description' => $request->meta_description
             ];
+
+            if($request->meta_title == null){
+                $productData['meta_title'] = $request->title;
+            }
+
+            if($request->meta_description == null){
+                $productData['meta_description'] = $request->short_description;
+            }
             
             // Create new product
             $product = Product::create($productData);
@@ -70,9 +80,19 @@ class ProductService
                 'cost_price' => $request->cost_price,
                 'sale_price' => $request->sale_price,
                 'discount_price' => $request->discount_price,
-                'thumbnail' => $request->thumbnail
+                'thumbnail' => $request->thumbnail,
+                'meta_title' => $request->meta_title,
+                'meta_description' => $request->meta_description
             ];
             
+            if($request->meta_title == null){
+                $productData['meta_title'] = $request->title;
+            }
+
+            if($request->meta_description == null){
+                $productData['meta_description'] = $request->short_description;
+            }
+
             // Update existing product
             $product->update($productData);
             
@@ -93,6 +113,7 @@ class ProductService
         } catch (\Exception $e) {
             // Rollback transaction
             \DB::rollBack();
+            dd($e->getMessage());
             return [
                 'status' => false,
                 'message' => $e->getMessage(),

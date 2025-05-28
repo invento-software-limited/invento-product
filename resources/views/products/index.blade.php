@@ -53,7 +53,7 @@
                                 </td>
                                 <td>
                                     <div class="symbol symbol-50px">
-                                        <img src="{{ $product->thumbnail_url ?? asset('assets/media/svg/files/blank-image.svg') }}" alt="{{ $product->title }}" class="w-100">
+                                        <img src="{{ $product->thumbnail ?? asset('assets/media/svg/files/blank-image.svg') }}" alt="{{ $product->title }}" class="w-100">
                                     </div>
                                 </td>
 

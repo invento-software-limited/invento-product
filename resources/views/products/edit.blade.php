@@ -75,8 +75,7 @@
                     </div>
 
                     <!-- SEO Fields -->
-                    @include('backend.partials.seo-field',['model' => $product,'column' => 'slug','seo' => $product->seo])
-
+                    @include('backend.partials.seo-field',['model' => 'Invento-Product-Models-Product','column' => 'slug','seo' => $product])
                     <!-- Custom Fields -->
                     @custom_fields(\App\Models\CustomField::MODULES['Product'], $product)
 
