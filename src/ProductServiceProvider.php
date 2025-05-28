@@ -40,6 +40,7 @@ class ProductServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'product');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'product');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/breadcrumbs.php');
     }
 

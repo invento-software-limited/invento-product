@@ -4,14 +4,14 @@ namespace Invento\Product\Services;
 
 use Invento\Product\Models\Product;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\DB;
 class ProductService
 {
     public static function store($request)
     {
         try {
             // Begin transaction
-            \DB::beginTransaction();
+            DB::beginTransaction();
             
             // Prepare product data
             $productData = [
@@ -45,7 +45,7 @@ class ProductService
             }
             
             // Commit transaction
-            \DB::commit();
+            DB::commit();
             
             return [
                 'status' => true,
@@ -55,7 +55,7 @@ class ProductService
             
         } catch (\Exception $e) {
             // Rollback transaction
-            \DB::rollBack();
+            DB::rollBack();
             return [
                 'status' => false,
                 'message' => $e->getMessage(),
@@ -68,7 +68,7 @@ class ProductService
     {
         try {
             // Begin transaction
-            \DB::beginTransaction();
+            DB::beginTransaction();
             
             // Prepare product data
             $productData = [
@@ -99,10 +99,12 @@ class ProductService
             // Sync categories if any
             if ($request->has('categories')) {
                 $product->categories()->sync($request->categories);
+            }else{
+                $product->categories()->detach();
             }
             
             // Commit transaction
-            \DB::commit();
+            DB::commit();
             
             return [
                 'status' => true,
@@ -112,8 +114,7 @@ class ProductService
             
         } catch (\Exception $e) {
             // Rollback transaction
-            \DB::rollBack();
-            dd($e->getMessage());
+            DB::rollBack();
             return [
                 'status' => false,
                 'message' => $e->getMessage(),

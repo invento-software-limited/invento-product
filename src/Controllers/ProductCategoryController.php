@@ -4,10 +4,7 @@ namespace Invento\Product\Controllers;
 
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
-use Illuminate\Contracts\Foundation\Application as ApplicationAlias1;
-use Illuminate\Contracts\View\Factory as FactoryAlias;
-use Illuminate\Contracts\View\View as ViewAlias;
-use Illuminate\Foundation\Application as ApplicationAlias;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Invento\Product\Models\ProductCategory;
 use Invento\Product\Requests\CategoryRequestRequest;
@@ -97,6 +94,10 @@ class ProductCategoryController extends Controller
     public function apiIndex()
     {
         $categories = ProductCategory::paginate(10);
-        return ProductCategoryResource::collection($categories);
+        return ApiResponse::success(
+            ProductCategoryResource::collection($categories),
+            'Products retrieved successfully.',
+            200
+        );;
     }
 }

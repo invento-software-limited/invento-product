@@ -100,8 +100,14 @@
                                         </div>
 
                                         <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3 delete_table_row"
-                                               data-row="{{ $product->id }}">{{  __('product::products.delete')  }}</a>
+                                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" id="delete-form-{{ $product->id }}" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="javascript:void(0)" class="menu-link px-3" 
+                                                   onclick="confirmDelete({{ $product->id }})">
+                                                   {{ __('product::products.delete') }}
+                                                </a>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>
@@ -180,54 +186,24 @@
 
     @push('scripts')
         <script>
-            $(document).ready(function () {
-                $('.delete_table_row').click(function(e) {
-                    e.preventDefault();
-                    var id = $(this).attr('data-row');
-
-                    Swal.fire({
-                        text: "{{ __('product::products.delete_confirm') }}",
-                        icon: "warning",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "{{ __('product::products.delete_yes') }}",
-                        cancelButtonText: "{{ __('product::products.delete_no') }}",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-danger",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    }).then(function (result) {
-                        if (result.value) {
-                            Swal.fire({
-                                text: "{{ __('product::products.deleted') }}",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "{{ __('product::products.ok_got_it') }}",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary",
-                                }
-                            }).then(function () {
-                                // delete row
-                                var url = '{{ route("admin.products.destroy", ":id") }}';
-                                url = url.replace(':id', id);
-
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: url,
-                                    data: {
-                                        "_token": "{{ csrf_token() }}",
-                                    },
-                                    success: function (response) {
-                                        if (response.status) {
-                                            location.reload();
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    });
+            function confirmDelete(id) {
+                Swal.fire({
+                    text: "{{ __('product::products.delete_confirm') }}",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "{{ __('product::products.delete_yes') }}",
+                    cancelButtonText: "{{ __('product::products.delete_no') }}",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
                 });
-            });
+            }
         </script>
     @endpush
 </x-default-layout>

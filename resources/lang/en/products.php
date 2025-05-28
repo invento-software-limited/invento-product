@@ -2,13 +2,14 @@
 
 return [
     // Product Management
+    'product' => 'Product',
+    'products' => 'Products',
     'product_management' => 'Product Management',
     'product_list' => 'Product List',
     'add_product' => 'Add Product',
     'edit_product' => 'Edit Product',
     'welcome_products' => 'Welcome to Products',
     'no_products' => 'There are no products yet. Start by adding a new product.',
-
     // Form Labels
     'title' => 'Title',
     'title_text' => 'A product title is required and recommended to be unique.',
@@ -40,6 +41,8 @@ return [
     'deleted' => 'Product deleted successfully!',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'product_updated_successfully' => 'Product updated successfully!',
+    'product_deleted_successfully' => 'Product deleted successfully!',
 
     // Actions
     'action' => 'Action',

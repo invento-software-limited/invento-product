@@ -48,6 +48,26 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('product_category_product', function (Blueprint $table) {
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_category_id');
+
+            // Optional: Add created_at timestamp if needed
+            $table->timestamps();
+
+            // Foreign Keys
+            $table->foreign('product_id')
+                  ->references('id')->on('products')
+                  ->onDelete('cascade');
+
+            $table->foreign('product_category_id')
+                  ->references('id')->on('product_categories')
+                  ->onDelete('cascade');
+
+            // Composite primary key
+            $table->primary(['product_id', 'product_category_id']);
+        });
+
         // Insert permissions for the blog module
         $permissions_list = [
             'products' => ['view product categories','add and update product category','delete product category','view products','add and update product','delete product']
@@ -73,8 +93,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product_category_product');
         Schema::dropIfExists('product_categories');
+        Schema::dropIfExists('products');
 
         $permissions =  DB::table('permissions')->where('prefix', 'products')->pluck('id')->toArray();
         DB::table('role_has_permissions')->whereIn('permission_id', $permissions)->delete();

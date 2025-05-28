@@ -18,6 +18,8 @@ class ProductResource extends JsonResource
             'sale_price' => $this->sale_price,
             'discount_price' => $this->discount_price,
             'thumbnail' => $this->thumbnail,
+            'meta_title' => $this->meta_title,
+            'meta_description'=> $this->meta_description,
             'categories' => ProductCategoryResource::collection($this->whenLoaded('categories')),
         ];
     }

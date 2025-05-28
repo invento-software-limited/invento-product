@@ -99,7 +99,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="card-body pt-0">
+                <div class="card-body pt-0">
                     <select class="form-select mb-2" name="categories[]" id="categories" data-control="select2" 
                             multiple data-placeholder="{{ __('product::products.select_categories') }}">
                         @foreach($categories as $key => $category)
@@ -107,7 +107,7 @@
                         @endforeach
                     </select>
                     <div class="text-muted fs-7">{{ __('product::products.categories_text') }}</div>
-                </div> --}}
+                </div>
             </div>
 
             <!-- Product Thumbnail -->
