@@ -13,12 +13,12 @@ use Invento\Product\Resource\ProductCategoryResource;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['permission:view product categories'])->only(['index']);
-        $this->middleware(['permission:add and update product category'])->only(['create', 'store', 'edit', 'update']);
-        $this->middleware(['permission:delete product category'])->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware(['permission:view product categories'])->only(['index']);
+    //     $this->middleware(['permission:add and update product category'])->only(['create', 'store', 'edit', 'update']);
+    //     $this->middleware(['permission:delete product category'])->only(['destroy']);
+    // }
 
     public function index()
     {

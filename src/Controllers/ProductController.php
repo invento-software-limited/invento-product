@@ -15,12 +15,12 @@ use App\Helpers\ApiResponse;
 class ProductController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware(['permission:view products'])->only(['index', 'apiIndex', 'apiShow']);
-        $this->middleware(['permission:add and update product'])->only(['create','store','edit','update']);
-        $this->middleware(['permission:delete product'])->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware(['permission:view products'])->only(['index', 'apiIndex', 'apiShow']);
+    //     $this->middleware(['permission:add and update product'])->only(['create','store','edit','update']);
+    //     $this->middleware(['permission:delete product'])->only(['destroy']);
+    // }
     
     public function index()
     {
