@@ -7,7 +7,7 @@ Compatible  with only Laravel multi-purpose CMS
 1. Install the package via Composer:
 
     ```sh
-     composer require invento/doctor
+     composer require invento/product
     ```
 
    The package will automatically register its service provider.
@@ -15,7 +15,7 @@ Compatible  with only Laravel multi-purpose CMS
 2. Optionally, publish the configuration file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider"
     ```
 
 
@@ -24,32 +24,32 @@ Compatible  with only Laravel multi-purpose CMS
 1. Publish the configuration file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-config"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider" --tag="product-config"
     ```
 
 2. Publish the view file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-views"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider" --tag="product-views"
     ```
 
 
 3. Publish the lang file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-lang"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider" --tag="product-lang"
     ```
 
 4. Publish the asset file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-assets"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider" --tag="product-assets"
     ```
    
 5. Publish the migration file if you want to change any defaults:
 
     ```sh
-    php artisan vendor:publish --provider="Invento\Doctor\DoctorServiceProvider" --tag="doctor-migration"
+    php artisan vendor:publish --provider="Invento\Product\ProductServiceProvider" --tag="product-migration"
     ```
 
 
